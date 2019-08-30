@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>ObjectArrayTraits &#8212; Zserio 1.2.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>ObjectArrayTraits &#8212; Zserio 1.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -15,6 +13,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,7 +35,7 @@
         <li class="right" >
           <a href="zserio.array.Float64ArrayTraits.html" title="Float64ArrayTraits"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -53,44 +52,41 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Array traits for Zserio structure, choice, union and enum types.</p>
 <p>Constructor.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>objectCreator</strong> – Creator which creates object from the element index.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>objectCreator</strong> – Creator which creates object from the element index.</p>
+</dd>
+</dl>
 <p class="rubric">Attributes Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-center">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.array.ObjectArrayTraits.HAS_BITSIZEOF_CONSTANT" title="zserio.array.ObjectArrayTraits.HAS_BITSIZEOF_CONSTANT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HAS_BITSIZEOF_CONSTANT</span></code></a></td>
-<td></td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.array.ObjectArrayTraits.HAS_BITSIZEOF_CONSTANT" title="zserio.array.ObjectArrayTraits.HAS_BITSIZEOF_CONSTANT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HAS_BITSIZEOF_CONSTANT</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-center">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.array.ObjectArrayTraits.bitSizeOf" title="zserio.array.ObjectArrayTraits.bitSizeOf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bitSizeOf</span></code></a>(bitPosition,&nbsp;value)</td>
-<td>Returns length of Zserio object type stored in the bit stream in bits.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.array.ObjectArrayTraits.bitSizeOf" title="zserio.array.ObjectArrayTraits.bitSizeOf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bitSizeOf</span></code></a>(bitPosition, value)</p></td>
+<td><p>Returns length of Zserio object type stored in the bit stream in bits.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.array.ObjectArrayTraits.initializeOffsets" title="zserio.array.ObjectArrayTraits.initializeOffsets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initializeOffsets</span></code></a>(bitPosition,&nbsp;value)</td>
-<td>Initializes indexed offsets for the Zserio object type.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.array.ObjectArrayTraits.initializeOffsets" title="zserio.array.ObjectArrayTraits.initializeOffsets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initializeOffsets</span></code></a>(bitPosition, value)</p></td>
+<td><p>Initializes indexed offsets for the Zserio object type.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.array.ObjectArrayTraits.read" title="zserio.array.ObjectArrayTraits.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(reader,&nbsp;index)</td>
-<td>Reads Zserio object type from the bit stream.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.array.ObjectArrayTraits.read" title="zserio.array.ObjectArrayTraits.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(reader, index)</p></td>
+<td><p>Reads Zserio object type from the bit stream.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.array.ObjectArrayTraits.write" title="zserio.array.ObjectArrayTraits.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>(writer,&nbsp;value)</td>
-<td>Writes Zserio object type to the bit stream.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.array.ObjectArrayTraits.write" title="zserio.array.ObjectArrayTraits.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>(writer, value)</p></td>
+<td><p>Writes Zserio object type to the bit stream.</p></td>
 </tr>
 </tbody>
 </table>
@@ -105,78 +101,62 @@
 <dt id="zserio.array.ObjectArrayTraits.bitSizeOf">
 <em class="property">static </em><code class="descname">bitSizeOf</code><span class="sig-paren">(</span><em>bitPosition</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#ObjectArrayTraits.bitSizeOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.ObjectArrayTraits.bitSizeOf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns length of Zserio object type stored in the bit stream in bits.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bitPosition</strong> – Current bit position in bit stream.</li>
-<li><strong>value</strong> – Zserio object type value.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bitPosition</strong> – Current bit position in bit stream.</p></li>
+<li><p><strong>value</strong> – Zserio object type value.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Length of given Zserio object type in bits.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Length of given Zserio object type in bits.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="zserio.array.ObjectArrayTraits.initializeOffsets">
 <em class="property">static </em><code class="descname">initializeOffsets</code><span class="sig-paren">(</span><em>bitPosition</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#ObjectArrayTraits.initializeOffsets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.ObjectArrayTraits.initializeOffsets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes indexed offsets for the Zserio object type.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bitPosition</strong> – Current bit stream position.</li>
-<li><strong>value</strong> – Zserio object type value.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bitPosition</strong> – Current bit stream position.</p></li>
+<li><p><strong>value</strong> – Zserio object type value.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Updated bit stream position which points to the first bit after the Zserio object type.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Updated bit stream position which points to the first bit after the Zserio object type.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.array.ObjectArrayTraits.read">
 <code class="descname">read</code><span class="sig-paren">(</span><em>reader</em>, <em>index</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#ObjectArrayTraits.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.ObjectArrayTraits.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads Zserio object type from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>reader</strong> – Bit stream from which to read.</li>
-<li><strong>index</strong> – Element index in the array.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reader</strong> – Bit stream from which to read.</p></li>
+<li><p><strong>index</strong> – Element index in the array.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="zserio.array.ObjectArrayTraits.write">
 <em class="property">static </em><code class="descname">write</code><span class="sig-paren">(</span><em>writer</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#ObjectArrayTraits.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.ObjectArrayTraits.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes Zserio object type to the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>writer</strong> – Bit stream where to write.</li>
-<li><strong>value</strong> – Zserio object type to write.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>writer</strong> – Bit stream where to write.</p></li>
+<li><p><strong>value</strong> – Zserio object type to write.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -204,8 +184,6 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -229,7 +207,7 @@
         <li class="right" >
           <a href="zserio.array.Float64ArrayTraits.html" title="Float64ArrayTraits"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

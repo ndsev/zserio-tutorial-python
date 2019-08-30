@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>BitStreamReader &#8212; Zserio 1.2.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>BitStreamReader &#8212; Zserio 1.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -15,6 +13,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,7 +35,7 @@
         <li class="right" >
           <a href="../index.html" title="Zserio Python runtime library documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -53,77 +52,74 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Bit stream reader.</p>
 <p>Constructs bit stream reader from bytes buffer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buffer</strong> – Bytes-like buffer to read as a bit stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>buffer</strong> – Bytes-like buffer to read as a bit stream.</p>
+</dd>
+</dl>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-center">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.alignTo" title="zserio.BitStreamReader.alignTo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alignTo</span></code></a>(alignment)</td>
-<td>Aligns the bit position according to the aligning value.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.alignTo" title="zserio.BitStreamReader.alignTo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alignTo</span></code></a>(alignment)</p></td>
+<td><p>Aligns the bit position according to the aligning value.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.fromFile" title="zserio.BitStreamReader.fromFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromFile</span></code></a>(filename)</td>
-<td>Constructs bit stream reader from file.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.fromFile" title="zserio.BitStreamReader.fromFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromFile</span></code></a>(filename)</p></td>
+<td><p>Constructs bit stream reader from file.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.getBitPosition" title="zserio.BitStreamReader.getBitPosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitPosition</span></code></a>()</td>
-<td>Gets current bit position.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.getBitPosition" title="zserio.BitStreamReader.getBitPosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitPosition</span></code></a>()</p></td>
+<td><p>Gets current bit position.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.readBits" title="zserio.BitStreamReader.readBits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readBits</span></code></a>(numBits)</td>
-<td>Reads given number of bits from the bit stream as an unsigned integer.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readBits" title="zserio.BitStreamReader.readBits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readBits</span></code></a>(numBits)</p></td>
+<td><p>Reads given number of bits from the bit stream as an unsigned integer.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.readBool" title="zserio.BitStreamReader.readBool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readBool</span></code></a>()</td>
-<td>Reads single bit as a bool value.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readBool" title="zserio.BitStreamReader.readBool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readBool</span></code></a>()</p></td>
+<td><p>Reads single bit as a bool value.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.readFloat16" title="zserio.BitStreamReader.readFloat16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readFloat16</span></code></a>()</td>
-<td>Read 16-bits from the stream as a float value encoded according to IEEE 754 binary16.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readFloat16" title="zserio.BitStreamReader.readFloat16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readFloat16</span></code></a>()</p></td>
+<td><p>Read 16-bits from the stream as a float value encoded according to IEEE 754 binary16.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.readFloat32" title="zserio.BitStreamReader.readFloat32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readFloat32</span></code></a>()</td>
-<td>Read 32-bits from the stream as a float value encoded according to IEEE 754 binary32.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readFloat32" title="zserio.BitStreamReader.readFloat32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readFloat32</span></code></a>()</p></td>
+<td><p>Read 32-bits from the stream as a float value encoded according to IEEE 754 binary32.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.readFloat64" title="zserio.BitStreamReader.readFloat64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readFloat64</span></code></a>()</td>
-<td>Read 64-bits from the stream as a float value encoded according to IEEE 754 binary64.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readFloat64" title="zserio.BitStreamReader.readFloat64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readFloat64</span></code></a>()</p></td>
+<td><p>Read 64-bits from the stream as a float value encoded according to IEEE 754 binary64.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.readSignedBits" title="zserio.BitStreamReader.readSignedBits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readSignedBits</span></code></a>(numBits)</td>
-<td>Reads given number of bits from the bit stream as a signed integer.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readSignedBits" title="zserio.BitStreamReader.readSignedBits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readSignedBits</span></code></a>(numBits)</p></td>
+<td><p>Reads given number of bits from the bit stream as a signed integer.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.readString" title="zserio.BitStreamReader.readString"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readString</span></code></a>()</td>
-<td>Reads string from the stream.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readString" title="zserio.BitStreamReader.readString"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readString</span></code></a>()</p></td>
+<td><p>Reads string from the stream.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.readVarInt" title="zserio.BitStreamReader.readVarInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarInt</span></code></a>()</td>
-<td>Reads variable signed integer value (up to 9 bytes) from the bit stream.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readVarInt" title="zserio.BitStreamReader.readVarInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarInt</span></code></a>()</p></td>
+<td><p>Reads variable signed integer value (up to 9 bytes) from the bit stream.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.readVarInt16" title="zserio.BitStreamReader.readVarInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarInt16</span></code></a>()</td>
-<td>Reads variable 16-bit signed integer value from the bit stream.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readVarInt16" title="zserio.BitStreamReader.readVarInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarInt16</span></code></a>()</p></td>
+<td><p>Reads variable 16-bit signed integer value from the bit stream.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.readVarInt32" title="zserio.BitStreamReader.readVarInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarInt32</span></code></a>()</td>
-<td>Reads variable 32-bit signed integer value from the bit stream.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readVarInt32" title="zserio.BitStreamReader.readVarInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarInt32</span></code></a>()</p></td>
+<td><p>Reads variable 32-bit signed integer value from the bit stream.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.readVarInt64" title="zserio.BitStreamReader.readVarInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarInt64</span></code></a>()</td>
-<td>Reads variable 64-bit signed integer value from the bit stream.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readVarInt64" title="zserio.BitStreamReader.readVarInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarInt64</span></code></a>()</p></td>
+<td><p>Reads variable 64-bit signed integer value from the bit stream.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.readVarUInt" title="zserio.BitStreamReader.readVarUInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarUInt</span></code></a>()</td>
-<td>Reads variable unsigned integer value (up to 9 bytes) from the bit stream.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readVarUInt" title="zserio.BitStreamReader.readVarUInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarUInt</span></code></a>()</p></td>
+<td><p>Reads variable unsigned integer value (up to 9 bytes) from the bit stream.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.readVarUInt16" title="zserio.BitStreamReader.readVarUInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarUInt16</span></code></a>()</td>
-<td>Reads variable 16-bit unsigned integer value from the bit stream.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readVarUInt16" title="zserio.BitStreamReader.readVarUInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarUInt16</span></code></a>()</p></td>
+<td><p>Reads variable 16-bit unsigned integer value from the bit stream.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.readVarUInt32" title="zserio.BitStreamReader.readVarUInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarUInt32</span></code></a>()</td>
-<td>Reads variable 32-bit unsigned integer value from the bit stream.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readVarUInt32" title="zserio.BitStreamReader.readVarUInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarUInt32</span></code></a>()</p></td>
+<td><p>Reads variable 32-bit unsigned integer value from the bit stream.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.BitStreamReader.readVarUInt64" title="zserio.BitStreamReader.readVarUInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarUInt64</span></code></a>()</td>
-<td>Reads variable 64-bit unsigned integer value from the bit stream.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamReader.readVarUInt64" title="zserio.BitStreamReader.readVarUInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readVarUInt64</span></code></a>()</p></td>
+<td><p>Reads variable 64-bit unsigned integer value from the bit stream.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.BitStreamReader.setBitPosition" title="zserio.BitStreamReader.setBitPosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBitPosition</span></code></a>(bitPosition)</td>
-<td>Sets bit position.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamReader.setBitPosition" title="zserio.BitStreamReader.setBitPosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBitPosition</span></code></a>(bitPosition)</p></td>
+<td><p>Sets bit position.</p></td>
 </tr>
 </tbody>
 </table>
@@ -132,288 +128,242 @@
 <dt id="zserio.BitStreamReader.alignTo">
 <code class="descname">alignTo</code><span class="sig-paren">(</span><em>alignment</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.alignTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.alignTo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aligns the bit position according to the aligning value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alignment</strong> – An aligning value to use.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the aligning moves behind the stream.”</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>alignment</strong> – An aligning value to use.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the aligning moves behind the stream.”</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="zserio.BitStreamReader.fromFile">
 <em class="property">classmethod </em><code class="descname">fromFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.fromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.fromFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs bit stream reader from file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> – Filename to read as a bit stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> – Filename to read as a bit stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.getBitPosition">
 <code class="descname">getBitPosition</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.getBitPosition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.getBitPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets current bit position.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Current bit position.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Current bit position.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readBits">
 <code class="descname">readBits</code><span class="sig-paren">(</span><em>numBits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readBits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readBits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads given number of bits from the bit stream as an unsigned integer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>numBits</strong> – Number of bits to read.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Read bits as an unsigned integer.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the numBits is invalid number of the reading goes behind the stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>numBits</strong> – Number of bits to read.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Read bits as an unsigned integer.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the numBits is invalid number of the reading goes behind the stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readBool">
 <code class="descname">readBool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readBool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readBool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads single bit as a bool value.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Read bool values.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Read bool values.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readFloat16">
 <code class="descname">readFloat16</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 16-bits from the stream as a float value encoded according to IEEE 754 binary16.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Read float value.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Read float value.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readFloat32">
 <code class="descname">readFloat32</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat32" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 32-bits from the stream as a float value encoded according to IEEE 754 binary32.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Read float value.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Read float value.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readFloat64">
 <code class="descname">readFloat64</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 64-bits from the stream as a float value encoded according to IEEE 754 binary64.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Read float value.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Read float value.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readSignedBits">
 <code class="descname">readSignedBits</code><span class="sig-paren">(</span><em>numBits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readSignedBits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readSignedBits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads given number of bits from the bit stream as a signed integer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>numBits</strong> – Number of bits to read</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Read bits as a signed integer.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the numBits is invalid number of the reading goes behind the stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>numBits</strong> – Number of bits to read</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Read bits as a signed integer.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the numBits is invalid number of the reading goes behind the stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readString">
 <code class="descname">readString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readString" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads string from the stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Read string.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Read string.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the reading goes behind the stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readVarInt">
 <code class="descname">readVarInt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable signed integer value (up to 9 bytes) from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Variable signed integer value (up to 9 bytes).</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Variable signed integer value (up to 9 bytes).</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readVarInt16">
 <code class="descname">readVarInt16</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 16-bit signed integer value from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Variable 16-bit signed integer value.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Variable 16-bit signed integer value.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readVarInt32">
 <code class="descname">readVarInt32</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt32" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 32-bit signed integer value from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Variable 32-bit signed integer value.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Variable 32-bit signed integer value.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readVarInt64">
 <code class="descname">readVarInt64</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 64-bit signed integer value from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Variable 64-bit signed integer value.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Variable 64-bit signed integer value.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readVarUInt">
 <code class="descname">readVarUInt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable unsigned integer value (up to 9 bytes) from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Variable unsigned integer value (up to 9 bytes).</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Variable unsigned integer value (up to 9 bytes).</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readVarUInt16">
 <code class="descname">readVarUInt16</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 16-bit unsigned integer value from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Variable 16-bit unsigned integer value.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Variable 16-bit unsigned integer value.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readVarUInt32">
 <code class="descname">readVarUInt32</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt32" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 32-bit unsigned integer value from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Variable 32-bit unsigned integer value.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Variable 32-bit unsigned integer value.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.readVarUInt64">
 <code class="descname">readVarUInt64</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 64-bit unsigned integer value from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Variable 64-bit unsigned integer value.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Variable 64-bit unsigned integer value.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.BitStreamReader.setBitPosition">
 <code class="descname">setBitPosition</code><span class="sig-paren">(</span><em>bitPosition</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.setBitPosition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.setBitPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets bit position.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bitPosition</strong> – New bit position.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the position is not within the stream.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bitPosition</strong> – New bit position.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the position is not within the stream.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -441,8 +391,6 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -466,7 +414,7 @@
         <li class="right" >
           <a href="../index.html" title="Zserio Python runtime library documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

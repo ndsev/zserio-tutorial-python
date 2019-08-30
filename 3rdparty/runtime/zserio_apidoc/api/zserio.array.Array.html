@@ -1,12 +1,10 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Array &#8212; Zserio 1.2.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>Array &#8212; Zserio 1.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -15,6 +13,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,7 +35,7 @@
         <li class="right" >
           <a href="zserio.PythonRuntimeException.html" title="PythonRuntimeException"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -53,46 +52,42 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Abstraction for arrays to which Zserio arrays are mapped in python.</p>
 <p>Constructor.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>arrayTraits</strong> – Array traits which specify the array type.</li>
-<li><strong>rawArray</strong> – Native python list which will be hold by this abstraction.</li>
-<li><strong>isAuto</strong> – True if mapped Zserio array is auto array.</li>
-<li><strong>isImplicit</strong> – True if mapped Zserio array is implicit array.</li>
-<li><strong>setOffsetMethod</strong> – Set offset method if mapped Zserio array is indexed offset array.</li>
-<li><strong>checkOffsetMethod</strong> – Check offset method if mapped Zserio array is indexed offset array.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arrayTraits</strong> – Array traits which specify the array type.</p></li>
+<li><p><strong>rawArray</strong> – Native python list which will be hold by this abstraction.</p></li>
+<li><p><strong>isAuto</strong> – True if mapped Zserio array is auto array.</p></li>
+<li><p><strong>isImplicit</strong> – True if mapped Zserio array is implicit array.</p></li>
+<li><p><strong>setOffsetMethod</strong> – Set offset method if mapped Zserio array is indexed offset array.</p></li>
+<li><p><strong>checkOffsetMethod</strong> – Check offset method if mapped Zserio array is indexed offset array.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods Summary</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-center">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.array.Array.bitSizeOf" title="zserio.array.Array.bitSizeOf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bitSizeOf</span></code></a>(bitPosition)</td>
-<td>Returns length of array stored in the bit stream in bits.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.array.Array.bitSizeOf" title="zserio.array.Array.bitSizeOf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bitSizeOf</span></code></a>(bitPosition)</p></td>
+<td><p>Returns length of array stored in the bit stream in bits.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.array.Array.fromReader" title="zserio.array.Array.fromReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromReader</span></code></a>(arrayTraits,&nbsp;reader[,&nbsp;size,&nbsp;…])</td>
-<td>Constructs array and reads elements from the given bit stream reader.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.array.Array.fromReader" title="zserio.array.Array.fromReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromReader</span></code></a>(arrayTraits, reader[, size, …])</p></td>
+<td><p>Constructs array and reads elements from the given bit stream reader.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.array.Array.getRawArray" title="zserio.array.Array.getRawArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getRawArray</span></code></a>()</td>
-<td>Gets raw array.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.array.Array.getRawArray" title="zserio.array.Array.getRawArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getRawArray</span></code></a>()</p></td>
+<td><p>Gets raw array.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.array.Array.initializeOffsets" title="zserio.array.Array.initializeOffsets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initializeOffsets</span></code></a>(bitPosition)</td>
-<td>Initializes indexed offsets for the array.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.array.Array.initializeOffsets" title="zserio.array.Array.initializeOffsets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initializeOffsets</span></code></a>(bitPosition)</p></td>
+<td><p>Initializes indexed offsets for the array.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#zserio.array.Array.read" title="zserio.array.Array.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(reader[,&nbsp;size])</td>
-<td>Reads array from the bit stream.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.array.Array.read" title="zserio.array.Array.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(reader[, size])</p></td>
+<td><p>Reads array from the bit stream.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#zserio.array.Array.write" title="zserio.array.Array.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>(writer)</td>
-<td>Writes array to the bit stream.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.array.Array.write" title="zserio.array.Array.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>(writer)</p></td>
+<td><p>Writes array to the bit stream.</p></td>
 </tr>
 </tbody>
 </table>
@@ -101,105 +96,87 @@
 <dt id="zserio.array.Array.bitSizeOf">
 <code class="descname">bitSizeOf</code><span class="sig-paren">(</span><em>bitPosition</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#Array.bitSizeOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.Array.bitSizeOf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns length of array stored in the bit stream in bits.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bitPosition</strong> – Current bit stream position.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Length of the array stored in the bit stream in bits.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bitPosition</strong> – Current bit stream position.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Length of the array stored in the bit stream in bits.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="zserio.array.Array.fromReader">
 <em class="property">classmethod </em><code class="descname">fromReader</code><span class="sig-paren">(</span><em>arrayTraits</em>, <em>reader</em>, <em>size=None</em>, <em>*</em>, <em>isAuto=None</em>, <em>isImplicit=None</em>, <em>setOffsetMethod=None</em>, <em>checkOffsetMethod=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#Array.fromReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.Array.fromReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs array and reads elements from the given bit stream reader.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>arrayTraits</strong> – Array traits which specify the array type.</li>
-<li><strong>reader</strong> – Bit stream from which to read.</li>
-<li><strong>size</strong> – Number of elements to read or None in case of implicit or auto arrays.</li>
-<li><strong>rawArray</strong> – Native python list which will be hold by this abstraction.</li>
-<li><strong>isAuto</strong> – True if mapped Zserio array is auto array.</li>
-<li><strong>isImplicit</strong> – True if mapped Zserio array is implicit array.</li>
-<li><strong>setOffsetMethod</strong> – Set offset method if mapped Zserio array is indexed offset array.</li>
-<li><strong>checkOffsetMethod</strong> – Check offset method if mapped Zserio array is indexed offset array.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arrayTraits</strong> – Array traits which specify the array type.</p></li>
+<li><p><strong>reader</strong> – Bit stream from which to read.</p></li>
+<li><p><strong>size</strong> – Number of elements to read or None in case of implicit or auto arrays.</p></li>
+<li><p><strong>rawArray</strong> – Native python list which will be hold by this abstraction.</p></li>
+<li><p><strong>isAuto</strong> – True if mapped Zserio array is auto array.</p></li>
+<li><p><strong>isImplicit</strong> – True if mapped Zserio array is implicit array.</p></li>
+<li><p><strong>setOffsetMethod</strong> – Set offset method if mapped Zserio array is indexed offset array.</p></li>
+<li><p><strong>checkOffsetMethod</strong> – Check offset method if mapped Zserio array is indexed offset array.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Array instance filled using given bit stream reader.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array instance filled using given bit stream reader.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.array.Array.getRawArray">
 <code class="descname">getRawArray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#Array.getRawArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.Array.getRawArray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets raw array.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Native python list which is hold by the array.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Native python list which is hold by the array.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.array.Array.initializeOffsets">
 <code class="descname">initializeOffsets</code><span class="sig-paren">(</span><em>bitPosition</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#Array.initializeOffsets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.Array.initializeOffsets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes indexed offsets for the array.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bitPosition</strong> – Current bit stream position.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Updated bit stream position which points to the first bit after the array.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bitPosition</strong> – Current bit stream position.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Updated bit stream position which points to the first bit after the array.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.array.Array.read">
 <code class="descname">read</code><span class="sig-paren">(</span><em>reader</em>, <em>size=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#Array.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.Array.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads array from the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>reader</strong> – Bit stream from which to read.</li>
-<li><strong>size</strong> – Number of elements to read or None in case of implicit or auto arrays.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reader</strong> – Bit stream from which to read.</p></li>
+<li><p><strong>size</strong> – Number of elements to read or None in case of implicit or auto arrays.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="zserio.array.Array.write">
 <code class="descname">write</code><span class="sig-paren">(</span><em>writer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/array.html#Array.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.array.Array.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes array to the bit stream.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>writer</strong> – Bit stream where to write.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>writer</strong> – Bit stream where to write.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -227,8 +204,6 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -252,7 +227,7 @@
         <li class="right" >
           <a href="zserio.PythonRuntimeException.html" title="PythonRuntimeException"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
