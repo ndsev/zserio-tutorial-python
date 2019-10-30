@@ -6,8 +6,8 @@ This Quick Start tutorial features code generation in Python. Go to the
 are interested in hands-on C++ or Java with zserio.
 
 You find the complete tutorial in this example. To follow along the description just clone this repo and check
-the sources. For convenience and compatibility reasons, we have included the zserio.jar compiler version
-1.2.0-pre1 and the corresponded runtime in this repository. The zserio compiler is located in the project's root
+the sources. For convenience and compatibility reasons, we have included the zserio.jar compiler
+and the corresponded runtime in this repository. The zserio compiler is located in the project's root
 folder and the runtime library is in subfolder `3rdparty`.
 
 The latest build of the zserio compiler and runtime library can be get from
