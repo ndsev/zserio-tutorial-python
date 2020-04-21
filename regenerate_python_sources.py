@@ -20,7 +20,7 @@ def main():
 def downloadZserio():
     print("Downloading the latest Zserio release JSON file...", end = "")
     latestZserioReleaseUrl = urllib.request.urlopen("https://api.github.com/repos/ndsev/zserio/releases/latest")
-    latestZserioReleaseJson = json.loads(latestZserioReleaseUrl.read())
+    latestZserioReleaseJson = json.loads(latestZserioReleaseUrl.read().decode('utf-8'))
     latestZserioVersion = latestZserioReleaseJson["tag_name"]
     latestZserioBinZipUrl = latestZserioReleaseJson["assets"][0]["browser_download_url"]
     latestZserioRuntimeLibsZipUrl = latestZserioReleaseJson["assets"][1]["browser_download_url"]
