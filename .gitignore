@@ -1,3 +1,6 @@
-build
-.project
+# generated build files
+/build/
+
+# Python bytecode
+__pycache__
 

@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>zserio.bitwriter &#8212; Zserio 1.4.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 1.4.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for zserio.bitwriter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The module implements abstraction for writing data to the bit stream.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">zserio.bitsizeof</span> <span class="k">import</span> <span class="p">(</span><span class="n">getBitSizeOfVarInt16</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt32</span><span class="p">,</span>
+                              <span class="n">getBitSizeOfVarInt64</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt</span><span class="p">,</span>
+                              <span class="n">getBitSizeOfVarUInt16</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt32</span><span class="p">,</span>
+                              <span class="n">getBitSizeOfVarUInt64</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt</span><span class="p">,</span>
+                              <span class="n">INT64_MIN</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="k">import</span> <span class="n">PythonRuntimeException</span>
+<span class="kn">from</span> <span class="nn">zserio.float</span> <span class="k">import</span> <span class="n">convertFloatToUInt16</span><span class="p">,</span> <span class="n">convertFloatToUInt32</span><span class="p">,</span> <span class="n">convertFloatToUInt64</span>
+
+<div class="viewcode-block" id="BitStreamWriter"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter">[docs]</a><span class="k">class</span> <span class="nc">BitStreamWriter</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bit stream writer using bytearray.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_byteArray</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="BitStreamWriter.writeBits"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeBits">[docs]</a>    <span class="k">def</span> <span class="nf">writeBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">numBits</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes the given value with the given number of bits to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :param numBits: Number of bits to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range or if the number of bits is invalid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">numBits</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter.writeBits: numBits &#39;</span><span class="si">%d</span><span class="s2">&#39; is less than 1!&quot;</span> <span class="o">%</span> <span class="n">numBits</span><span class="p">)</span>
+
+        <span class="n">minValue</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">maxValue</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">numBits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">minValue</span> <span class="ow">or</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">maxValue</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter.writeBits: Value &#39;</span><span class="si">%d</span><span class="s2">&#39; is out of the range &lt;</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">&gt;!&quot;</span> <span class="o">%</span>
+                                         <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">minValue</span><span class="p">,</span> <span class="n">maxValue</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeBitsImpl</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBits</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeSignedBits"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeSignedBits">[docs]</a>    <span class="k">def</span> <span class="nf">writeSignedBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">numBits</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes the given signed value with the given number of bits to the underlying storage.</span>
+<span class="sd">        Provided for convenience.</span>
+
+<span class="sd">        :param value: Signed value to write.</span>
+<span class="sd">        :param numBits: Number of bits to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range or if the number of bits is invalid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">numBits</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter.writeSignedBits: numBits &#39;</span><span class="si">%d</span><span class="s2">&#39; is less than 1!&quot;</span> <span class="o">%</span>
+                                         <span class="n">numBits</span><span class="p">)</span>
+
+        <span class="n">minValue</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">numBits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">maxValue</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">numBits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">minValue</span> <span class="ow">or</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">maxValue</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter.writeSignedBits: &quot;</span>
+                                         <span class="s2">&quot;Value &#39;</span><span class="si">%d</span><span class="s2">&#39; is out of the range &lt;</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">&gt;!&quot;</span> <span class="o">%</span>
+                                         <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">minValue</span><span class="p">,</span> <span class="n">maxValue</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeBitsImpl</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBits</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarInt16"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarInt16">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarInt16</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable 16-bit signed integer value to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarInt16</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARINT16_NUM_BITS</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarInt32"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarInt32">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarInt32</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable 32-bit signed integer value to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarInt32</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARINT32_NUM_BITS</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarInt64"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarInt64">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarInt64</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable 16-bit signed integer value to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarInt64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARINT64_NUM_BITS</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarInt"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarInt">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarInt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable signed integer value (up to 9 bytes) to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">INT64_MIN</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="mh">0x80</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="c1"># INT64_MIN is stored as -0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarInt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARINT_NUM_BITS</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarUInt16"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarUInt16">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarUInt16</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable 16-bit unsigned integer value to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarUInt16</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARUINT16_NUM_BITS</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarUInt32"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarUInt32">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarUInt32</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable 32-bit unsigned integer value to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarUInt32</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARUINT32_NUM_BITS</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarUInt64"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarUInt64">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarUInt64</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable 16-bit unsigned integer value to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarUInt64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARUINT64_NUM_BITS</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarUInt"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarUInt">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarUInt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable unsigned integer value (up to 9 bytes) to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarUInt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARUINT_NUM_BITS</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeFloat16"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeFloat16">[docs]</a>    <span class="k">def</span> <span class="nf">writeFloat16</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a 16-bit float value to the underlying storage according to IEEE 754 binary16.</span>
+
+<span class="sd">        :param value: Float value to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">convertFloatToUInt16</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="mi">16</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeFloat32"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeFloat32">[docs]</a>    <span class="k">def</span> <span class="nf">writeFloat32</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a 32-bit float value to the underlying storage according to IEEE 754 binary32.</span>
+
+<span class="sd">        :param value: Float value to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">convertFloatToUInt32</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="mi">32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeFloat64"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeFloat64">[docs]</a>    <span class="k">def</span> <span class="nf">writeFloat64</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a 64-bit float value to the underlying storage according to IEEE 754 binary64.</span>
+
+<span class="sd">        :param value: Float value to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">convertFloatToUInt64</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="mi">64</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeString"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeString">[docs]</a>    <span class="k">def</span> <span class="nf">writeString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes the given string to the underlying storage in UTF-8 encoding. Length of the string is written</span>
+<span class="sd">        as varuint64 at the beginning.</span>
+
+<span class="sd">        :param string: String to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">stringBytes</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeVarUInt64</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stringBytes</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">stringByte</span> <span class="ow">in</span> <span class="n">stringBytes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">stringByte</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeBool"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeBool">[docs]</a>    <span class="k">def</span> <span class="nf">writeBool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes bool in a single bit.</span>
+
+<span class="sd">        :param value: Bool value to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeBitBuffer"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeBitBuffer">[docs]</a>    <span class="k">def</span> <span class="nf">writeBitBuffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bitBuffer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a bit buffer to the underlying storage. Length of the bit buffer is written as varuint64</span>
+<span class="sd">        at the beginning.</span>
+
+<span class="sd">        :param bitBuffer: Bit buffer to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">bitSize</span> <span class="o">=</span> <span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBitSize</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeVarUInt64</span><span class="p">(</span><span class="n">bitSize</span><span class="p">)</span>
+
+        <span class="n">writeBuffer</span> <span class="o">=</span> <span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBuffer</span><span class="p">()</span>
+        <span class="n">numBytesToWrite</span> <span class="o">=</span> <span class="n">bitSize</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="n">numRestBits</span> <span class="o">=</span> <span class="n">bitSize</span> <span class="o">-</span> <span class="n">numBytesToWrite</span> <span class="o">*</span> <span class="mi">8</span>
+        <span class="n">beginBitPosition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">beginBitPosition</span> <span class="o">&amp;</span> <span class="mh">0x07</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># we are not aligned to byte</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numBytesToWrite</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">writeBuffer</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># we are aligned to byte</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_byteArray</span> <span class="o">+=</span> <span class="n">writeBuffer</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">numBytesToWrite</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+=</span> <span class="n">numBytesToWrite</span> <span class="o">*</span> <span class="mi">8</span>
+
+        <span class="k">if</span> <span class="n">numRestBits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">writeBuffer</span><span class="p">[</span><span class="n">numBytesToWrite</span><span class="p">],</span> <span class="n">numRestBits</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.getByteArray"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.getByteArray">[docs]</a>    <span class="k">def</span> <span class="nf">getByteArray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets internal bytearray.</span>
+
+<span class="sd">        :returns: Underlying bytearray object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_byteArray</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.toFile"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.toFile">[docs]</a>    <span class="k">def</span> <span class="nf">toFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes underlying bytearray to binary file.</span>
+
+<span class="sd">        :param filename: File to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_byteArray</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.getBitPosition"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.getBitPosition">[docs]</a>    <span class="k">def</span> <span class="nf">getBitPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets current bit position.</span>
+
+<span class="sd">        :returns: Current bit position.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.alignTo"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.alignTo">[docs]</a>    <span class="k">def</span> <span class="nf">alignTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alignment</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Aligns the bit position according to the aligning value.</span>
+
+<span class="sd">        :param alignment: An aligning value to use.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">%</span> <span class="n">alignment</span>
+        <span class="k">if</span> <span class="n">offset</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">alignment</span> <span class="o">-</span> <span class="n">offset</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_writeBitsImpl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">numBits</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">signed</span><span class="p">):</span>
+        <span class="n">bufferLastByteBits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">%</span> <span class="mi">8</span>
+        <span class="n">bufferFreeBits</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">bufferLastByteBits</span><span class="p">)</span> <span class="k">if</span> <span class="n">bufferLastByteBits</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">valueFirstByteBits</span> <span class="o">=</span> <span class="n">numBits</span> <span class="o">%</span> <span class="mi">8</span> <span class="ow">or</span> <span class="mi">8</span>
+        <span class="k">if</span> <span class="n">valueFirstByteBits</span> <span class="o">&lt;=</span> <span class="n">bufferFreeBits</span><span class="p">:</span>
+            <span class="n">leftShift</span> <span class="o">=</span> <span class="n">bufferFreeBits</span> <span class="o">-</span> <span class="n">valueFirstByteBits</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">leftShift</span> <span class="o">=</span> <span class="n">bufferFreeBits</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">-</span> <span class="n">valueFirstByteBits</span>
+        <span class="n">value</span> <span class="o">&lt;&lt;=</span> <span class="n">leftShift</span>
+        <span class="n">numBytes</span> <span class="o">=</span> <span class="p">(</span><span class="n">numBits</span> <span class="o">+</span> <span class="n">leftShift</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="n">valueBytes</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">numBytes</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;big&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="n">signed</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bufferFreeBits</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_byteArray</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">valueBytes</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">valueFirstByte</span> <span class="o">=</span> <span class="n">valueBytes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="p">((</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">bufferFreeBits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_byteArray</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">|=</span> <span class="n">valueFirstByte</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_byteArray</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">valueBytes</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+=</span> <span class="n">numBits</span>
+
+    <span class="k">def</span> <span class="nf">_writeVarNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">absValue</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">varNumBits</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">maxNumBytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">varNumBits</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">numBytes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):</span>
+            <span class="n">numBits</span> <span class="o">=</span> <span class="n">varNumBits</span><span class="p">[</span><span class="n">numBytes</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">numBits</span> <span class="o">==</span> <span class="n">VAR_NUM_SIGNED_FIRST_BYTE</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">writeBool</span><span class="p">(</span><span class="n">sign</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">numBits</span> <span class="o">!=</span> <span class="n">VAR_NUM_LAST_BYTE</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">writeBool</span><span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># has next byte</span>
+            <span class="n">shiftBits</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">numBytes</span> <span class="o">==</span> <span class="n">maxNumBytes</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">((</span><span class="n">absValue</span> <span class="o">&gt;&gt;</span> <span class="n">shiftBits</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">VAR_NUM_BIT_MASKS</span><span class="p">[</span><span class="n">numBits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">numBits</span><span class="p">)</span></div>
+
+<span class="n">VAR_NUM_BIT_MASKS</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span> <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x1f</span><span class="p">,</span> <span class="mh">0x3f</span><span class="p">,</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">]</span>
+<span class="n">VAR_NUM_SIGNED_FIRST_BYTE</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">VAR_NUM_LAST_BYTE</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="n">VARINT16_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">VARINT32_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">VARINT64_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">VARINT_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">VARUINT16_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">VARUINT32_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">VARUINT64_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="n">VARUINT_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/Zserio.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 1.4.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright Copyright (c) 2018, Navigation Data Standard e.v..
+    </div>
+  </body>
+</html>

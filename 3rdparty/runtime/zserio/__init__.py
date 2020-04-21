@@ -11,6 +11,7 @@ from zserio.bitwriter import BitStreamWriter
 from zserio.exception import PythonRuntimeException
 
 import zserio.array
+import zserio.bitbuffer
 import zserio.bitfield
 import zserio.bitposition
 import zserio.bitsizeof
@@ -19,4 +20,4 @@ import zserio.float
 import zserio.hashcode
 import zserio.limits
 
-VERSION_STRING = "1.4.0-pre1"
+VERSION_STRING = "1.4.0"

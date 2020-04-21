@@ -6,9 +6,8 @@ This Quick Start tutorial features code generation in Python. Go to the
 are interested in hands-on C++ or Java with zserio.
 
 You find the complete tutorial in this example. To follow along the description just clone this repo and check
-the sources. For convenience and compatibility reasons, we have included the zserio.jar compiler
-and the corresponded runtime in this repository. The zserio compiler is located in the project's root
-folder and the runtime library is in subfolder `3rdparty`.
+the sources. For convenience, we have included the corresponded runtime in this repository
+in subfolder `3rdparty`.
 
 The latest build of the zserio compiler and runtime library can be get from
 [Zserio Releases](https://github.com/ndsev/zserio/releases).
@@ -133,10 +132,20 @@ and reports errors and warnings. In addition, the zserio compiler generates code
 and may generate HTML documentation. For a complete overview of available options, please refer to the
 [Zserio Compiler User Guide](https://github.com/ndsev/zserio/blob/master/doc/ZserioUserGuide.md#zserio-compiler-user-guide).
 
-So let's generate some Python code:
+So let's generate some Python code. Because zserio compiler is not available in this repository, we have 
+prepared `regenerate_python_sources.py` which will download the latest zserio compiler release together
+with corresponded Python runtime library from GitHub and generate Python code. So, it's enough just to run the
+following command:
 
 ```
-java -jar zserio.jar -python src tutorial.zs
+python3 regenerate_python_sources.py
+```
+
+After download, you can find out the latest zserio compiler in directory `build/download` and regenerate
+the Python code by hand using the command:
+
+```
+java -jar build/download/zserio.jar -python src tutorial.zs
 ```
 
 This command generates Python code and puts it into the `src` folder. It actually creates subfolders for each
