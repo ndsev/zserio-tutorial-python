@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>zserio.bitreader &#8212; Zserio 1.4.0 documentation</title>
+    <title>zserio.bitreader &#8212; Zserio 2.0.0 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 1.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -97,12 +97,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">numBits</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader.readBits reading negative number of bits!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader: Reading negative number of bits!&quot;</span><span class="p">)</span>
 
         <span class="n">endBitPosition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+</span> <span class="n">numBits</span>
 
         <span class="k">if</span> <span class="n">endBitPosition</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader.readBits reading behind the stream!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader: Reading behind the stream!&quot;</span><span class="p">)</span>
 
         <span class="n">startByte</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">//</span> <span class="mi">8</span>
         <span class="n">endByte</span> <span class="o">=</span> <span class="p">(</span><span class="n">endBitPosition</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
@@ -410,6 +410,41 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 9</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
+<div class="viewcode-block" id="BitStreamReader.readVarSize"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarSize">[docs]</a>    <span class="k">def</span> <span class="nf">readVarSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads variable size integer value from the bit stream.</span>
+
+<span class="sd">        :returns: Variable size integer value.</span>
+<span class="sd">        :raises PythonRuntimeException: If read variable size integer is out of range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">byte</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 1</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">byte</span> <span class="o">&amp;</span> <span class="n">VARUINT_BYTE</span>
+        <span class="k">if</span> <span class="n">byte</span> <span class="o">&amp;</span> <span class="n">VARUINT_HAS_NEXT</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">byte</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 2</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span> <span class="o">|</span> <span class="p">(</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="n">VARUINT_BYTE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">byte</span> <span class="o">&amp;</span> <span class="n">VARUINT_HAS_NEXT</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">byte</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 3</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span> <span class="o">|</span> <span class="p">(</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="n">VARUINT_BYTE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">byte</span> <span class="o">&amp;</span> <span class="n">VARUINT_HAS_NEXT</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">byte</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 4</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span> <span class="o">|</span> <span class="p">(</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="n">VARUINT_BYTE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">byte</span> <span class="o">&amp;</span> <span class="n">VARUINT_HAS_NEXT</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 5</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="o">&gt;</span> <span class="n">VARSIZE_MAX_VALUE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader: Read value &#39;</span><span class="si">%d</span><span class="s2">&#39; is out of range for varsize type!&quot;</span> <span class="o">%</span>
+                                         <span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
 <div class="viewcode-block" id="BitStreamReader.readFloat16"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readFloat16">[docs]</a>    <span class="k">def</span> <span class="nf">readFloat16</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read 16-bits from the stream as a float value encoded according to IEEE 754 binary16.</span>
@@ -448,7 +483,7 @@
 <span class="sd">        :raises PythonRuntimeException: If the reading goes behind the stream.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readVarUInt64</span><span class="p">()</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readVarSize</span><span class="p">()</span>
         <span class="n">value</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
             <span class="n">value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
@@ -459,7 +494,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads single bit as a bool value.</span>
 
-<span class="sd">        :return: Read bool values.</span>
+<span class="sd">        :returns: Read bool values.</span>
 <span class="sd">        :raises PythonRuntimeException: If the reading goes behind the stream.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -469,11 +504,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads a bit buffer from the stream.</span>
 
-<span class="sd">        :return: Read bit buffer.</span>
+<span class="sd">        :returns: Read bit buffer.</span>
 <span class="sd">        :raises PythonRuntimeException: If the reading goes behind the stream.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">bitSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readVarUInt64</span><span class="p">()</span>
+        <span class="n">bitSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readVarSize</span><span class="p">()</span>
         <span class="n">numBytesToRead</span> <span class="o">=</span> <span class="n">bitSize</span> <span class="o">//</span> <span class="mi">8</span>
         <span class="n">numRestBits</span> <span class="o">=</span> <span class="n">bitSize</span> <span class="o">-</span> <span class="n">numBytesToRead</span> <span class="o">*</span> <span class="mi">8</span>
         <span class="n">byteSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">bitSize</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
@@ -490,7 +525,7 @@
             <span class="n">readBuffer</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">numBytesToRead</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="n">beginBytePosition</span><span class="p">:</span><span class="n">beginBytePosition</span> <span class="o">+</span> <span class="n">numBytesToRead</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">numRestBits</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">readBuffer</span><span class="p">[</span><span class="n">numBytesToRead</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="n">numRestBits</span><span class="p">)</span>
+            <span class="n">readBuffer</span><span class="p">[</span><span class="n">numBytesToRead</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="n">numRestBits</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">numRestBits</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">BitBuffer</span><span class="p">(</span><span class="n">readBuffer</span><span class="p">,</span> <span class="n">bitSize</span><span class="p">)</span></div>
 
@@ -512,10 +547,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">bitPosition</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader.setBitPosition: Cannot set negative bit position!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader: Cannot set negative bit position!&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">bitPosition</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader.setBitPosition: &quot;</span>
-                                         <span class="s2">&quot;Setting bit position behind the stream!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader: Setting bit position behind the stream!&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">=</span> <span class="n">bitPosition</span></div>
 
@@ -529,7 +563,16 @@
 
         <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">%</span> <span class="n">alignment</span>
         <span class="k">if</span> <span class="n">offset</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">setBitPosition</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+</span> <span class="n">alignment</span> <span class="o">-</span> <span class="n">offset</span><span class="p">)</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setBitPosition</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+</span> <span class="n">alignment</span> <span class="o">-</span> <span class="n">offset</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamReader.getBufferBitSize"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.getBufferBitSize">[docs]</a>    <span class="k">def</span> <span class="nf">getBufferBitSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets size of the underlying buffer in bits.</span>
+
+<span class="sd">        :returns: Buffer bit size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span></div></div>
 
 <span class="n">VARINT_SIGN_1</span> <span class="o">=</span> <span class="mh">0x80</span>
 <span class="n">VARINT_BYTE_1</span> <span class="o">=</span> <span class="mh">0x3f</span>
@@ -538,6 +581,7 @@
 <span class="n">VARINT_HAS_NEXT_N</span> <span class="o">=</span> <span class="mh">0x80</span>
 <span class="n">VARUINT_BYTE</span> <span class="o">=</span> <span class="mh">0x7f</span>
 <span class="n">VARUINT_HAS_NEXT</span> <span class="o">=</span> <span class="mh">0x80</span>
+<span class="n">VARSIZE_MAX_VALUE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 </pre></div>
 
           </div>
@@ -571,7 +615,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 1.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

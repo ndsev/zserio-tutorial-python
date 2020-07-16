@@ -109,7 +109,7 @@ def _readEmployee(employeeFile):
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         _printHelp()
-        sys.exit(1)
+        sys.exit(2)
 
     employeeFile = "employee.zsb"
 
@@ -123,8 +123,10 @@ if __name__ == "__main__":
         else:
             _printHelp()
             if sys.argv[1] != "-h" and sys.argv[1] != "--help":
-                sys.exit(1)
+                sys.exit(2)
     except zserio.PythonRuntimeException as e:
         print("Zserio error:", e)
+        sys.exit(1)
     except Exception as e:
         print("Error:", e)
+        sys.exit(1)

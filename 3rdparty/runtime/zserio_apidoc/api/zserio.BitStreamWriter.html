@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>BitStreamWriter &#8212; Zserio 1.4.0 documentation</title>
+    <title>BitStreamWriter &#8212; Zserio 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -17,7 +17,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="PythonRuntimeException" href="zserio.PythonRuntimeException.html" />
+    <link rel="next" title="PubsubException" href="zserio.PubsubException.html" />
     <link rel="prev" title="BitStreamReader" href="zserio.BitStreamReader.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -30,12 +30,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="zserio.PythonRuntimeException.html" title="PythonRuntimeException"
+          <a href="zserio.PubsubException.html" title="PubsubException"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="zserio.BitStreamReader.html" title="BitStreamReader"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.4.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -107,16 +107,19 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarInt64" title="zserio.BitStreamWriter.writeVarInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarInt64</span></code></a>(value)</p></td>
 <td><p>Writes a variable 16-bit signed integer value to the underlying storage.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarUInt" title="zserio.BitStreamWriter.writeVarUInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarUInt</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarSize" title="zserio.BitStreamWriter.writeVarSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarSize</span></code></a>(value)</p></td>
+<td><p>Writes a variable size integer value to the underlying storage.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarUInt" title="zserio.BitStreamWriter.writeVarUInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarUInt</span></code></a>(value)</p></td>
 <td><p>Writes a variable unsigned integer value (up to 9 bytes) to the underlying storage.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarUInt16" title="zserio.BitStreamWriter.writeVarUInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarUInt16</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarUInt16" title="zserio.BitStreamWriter.writeVarUInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarUInt16</span></code></a>(value)</p></td>
 <td><p>Writes a variable 16-bit unsigned integer value to the underlying storage.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarUInt32" title="zserio.BitStreamWriter.writeVarUInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarUInt32</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarUInt32" title="zserio.BitStreamWriter.writeVarUInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarUInt32</span></code></a>(value)</p></td>
 <td><p>Writes a variable 32-bit unsigned integer value to the underlying storage.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarUInt64" title="zserio.BitStreamWriter.writeVarUInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarUInt64</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.BitStreamWriter.writeVarUInt64" title="zserio.BitStreamWriter.writeVarUInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">writeVarUInt64</span></code></a>(value)</p></td>
 <td><p>Writes a variable 16-bit unsigned integer value to the underlying storage.</p></td>
 </tr>
 </tbody>
@@ -326,6 +329,20 @@ as varuint64 at the beginning.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="zserio.BitStreamWriter.writeVarSize">
+<code class="descname">writeVarSize</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitwriter.html#BitStreamWriter.writeVarSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamWriter.writeVarSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a variable size integer value to the underlying storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Value to write.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If the value is out of the range.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="zserio.BitStreamWriter.writeVarUInt">
 <code class="descname">writeVarUInt</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitwriter.html#BitStreamWriter.writeVarUInt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamWriter.writeVarUInt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes a variable unsigned integer value (up to 9 bytes) to the underlying storage.</p>
@@ -398,8 +415,8 @@ as varuint64 at the beginning.</p>
   <p class="topless"><a href="zserio.BitStreamReader.html"
                         title="previous chapter">BitStreamReader</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="zserio.PythonRuntimeException.html"
-                        title="next chapter">PythonRuntimeException</a></p>
+  <p class="topless"><a href="zserio.PubsubException.html"
+                        title="next chapter">PubsubException</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
@@ -424,12 +441,12 @@ as varuint64 at the beginning.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="zserio.PythonRuntimeException.html" title="PythonRuntimeException"
+          <a href="zserio.PubsubException.html" title="PubsubException"
              >next</a> |</li>
         <li class="right" >
           <a href="zserio.BitStreamReader.html" title="BitStreamReader"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 1.4.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

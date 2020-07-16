@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>zserio.bitwriter &#8212; Zserio 1.4.0 documentation</title>
+    <title>zserio.bitwriter &#8212; Zserio 2.0.0 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 1.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -46,7 +46,7 @@
                               <span class="n">getBitSizeOfVarInt64</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt</span><span class="p">,</span>
                               <span class="n">getBitSizeOfVarUInt16</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt32</span><span class="p">,</span>
                               <span class="n">getBitSizeOfVarUInt64</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt</span><span class="p">,</span>
-                              <span class="n">INT64_MIN</span><span class="p">)</span>
+                              <span class="n">getBitSizeOfVarSize</span><span class="p">,</span> <span class="n">INT64_MIN</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="k">import</span> <span class="n">PythonRuntimeException</span>
 <span class="kn">from</span> <span class="nn">zserio.float</span> <span class="k">import</span> <span class="n">convertFloatToUInt16</span><span class="p">,</span> <span class="n">convertFloatToUInt32</span><span class="p">,</span> <span class="n">convertFloatToUInt64</span>
 
@@ -73,12 +73,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">numBits</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter.writeBits: numBits &#39;</span><span class="si">%d</span><span class="s2">&#39; is less than 1!&quot;</span> <span class="o">%</span> <span class="n">numBits</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter: numBits &#39;</span><span class="si">%d</span><span class="s2">&#39; is less than 1!&quot;</span> <span class="o">%</span> <span class="n">numBits</span><span class="p">)</span>
 
         <span class="n">minValue</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">maxValue</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">numBits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">minValue</span> <span class="ow">or</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">maxValue</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter.writeBits: Value &#39;</span><span class="si">%d</span><span class="s2">&#39; is out of the range &lt;</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">&gt;!&quot;</span> <span class="o">%</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter: Value &#39;</span><span class="si">%d</span><span class="s2">&#39; is out of the range &lt;</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">&gt;!&quot;</span> <span class="o">%</span>
                                          <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">minValue</span><span class="p">,</span> <span class="n">maxValue</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_writeBitsImpl</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBits</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
@@ -94,14 +94,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">numBits</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter.writeSignedBits: numBits &#39;</span><span class="si">%d</span><span class="s2">&#39; is less than 1!&quot;</span> <span class="o">%</span>
-                                         <span class="n">numBits</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter: numBits &#39;</span><span class="si">%d</span><span class="s2">&#39; is less than 1!&quot;</span> <span class="o">%</span> <span class="n">numBits</span><span class="p">)</span>
 
         <span class="n">minValue</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">numBits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">maxValue</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">numBits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">minValue</span> <span class="ow">or</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">maxValue</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter.writeSignedBits: &quot;</span>
-                                         <span class="s2">&quot;Value &#39;</span><span class="si">%d</span><span class="s2">&#39; is out of the range &lt;</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">&gt;!&quot;</span> <span class="o">%</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamWriter: Value &#39;</span><span class="si">%d</span><span class="s2">&#39; is out of the range &lt;</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">&gt;!&quot;</span> <span class="o">%</span>
                                          <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">minValue</span><span class="p">,</span> <span class="n">maxValue</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_writeBitsImpl</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBits</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
@@ -114,8 +112,7 @@
 <span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarInt16</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARINT16_NUM_BITS</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt16</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.writeVarInt32"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarInt32">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarInt32</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -125,8 +122,7 @@
 <span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarInt32</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARINT32_NUM_BITS</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt32</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.writeVarInt64"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarInt64">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarInt64</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -136,8 +132,7 @@
 <span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarInt64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARINT64_NUM_BITS</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.writeVarInt"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarInt">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarInt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -150,8 +145,7 @@
         <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">INT64_MIN</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="mh">0x80</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="c1"># INT64_MIN is stored as -0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarInt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARINT_NUM_BITS</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.writeVarUInt16"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarUInt16">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarUInt16</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -161,8 +155,7 @@
 <span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarUInt16</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARUINT16_NUM_BITS</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt16</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.writeVarUInt32"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarUInt32">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarUInt32</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -172,8 +165,7 @@
 <span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarUInt32</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARUINT32_NUM_BITS</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt32</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.writeVarUInt64"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarUInt64">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarUInt64</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -183,8 +175,7 @@
 <span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarUInt64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARUINT64_NUM_BITS</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.writeVarUInt"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarUInt">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarUInt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -194,8 +185,17 @@
 <span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">numBytes</span> <span class="o">=</span> <span class="n">getBitSizeOfVarUInt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">VARUINT_NUM_BITS</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BitStreamWriter.writeVarSize"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeVarSize">[docs]</a>    <span class="k">def</span> <span class="nf">writeVarSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a variable size integer value to the underlying storage.</span>
+
+<span class="sd">        :param value: Value to write.</span>
+<span class="sd">        :raises PythonRuntimeException: If the value is out of the range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeVarNum</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">getBitSizeOfVarSize</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="n">isSigned</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.writeFloat16"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.writeFloat16">[docs]</a>    <span class="k">def</span> <span class="nf">writeFloat16</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -233,7 +233,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">stringBytes</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">writeVarUInt64</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stringBytes</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeVarSize</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stringBytes</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">stringByte</span> <span class="ow">in</span> <span class="n">stringBytes</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">stringByte</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span></div>
 
@@ -255,7 +255,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">bitSize</span> <span class="o">=</span> <span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBitSize</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">writeVarUInt64</span><span class="p">(</span><span class="n">bitSize</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeVarSize</span><span class="p">(</span><span class="n">bitSize</span><span class="p">)</span>
 
         <span class="n">writeBuffer</span> <span class="o">=</span> <span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBuffer</span><span class="p">()</span>
         <span class="n">numBytesToWrite</span> <span class="o">=</span> <span class="n">bitSize</span> <span class="o">//</span> <span class="mi">8</span>
@@ -271,7 +271,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+=</span> <span class="n">numBytesToWrite</span> <span class="o">*</span> <span class="mi">8</span>
 
         <span class="k">if</span> <span class="n">numRestBits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">writeBuffer</span><span class="p">[</span><span class="n">numBytesToWrite</span><span class="p">],</span> <span class="n">numRestBits</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">writeBuffer</span><span class="p">[</span><span class="n">numBytesToWrite</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">numRestBits</span><span class="p">),</span> <span class="n">numRestBits</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BitStreamWriter.getByteArray"><a class="viewcode-back" href="../../api/zserio.BitStreamWriter.html#zserio.BitStreamWriter.getByteArray">[docs]</a>    <span class="k">def</span> <span class="nf">getByteArray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -332,29 +332,30 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+=</span> <span class="n">numBits</span>
 
-    <span class="k">def</span> <span class="nf">_writeVarNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">absValue</span><span class="p">,</span> <span class="n">numBytes</span><span class="p">,</span> <span class="n">varNumBits</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sign</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="n">maxNumBytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">varNumBits</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">numBytes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):</span>
-            <span class="n">numBits</span> <span class="o">=</span> <span class="n">varNumBits</span><span class="p">[</span><span class="n">numBytes</span> <span class="o">-</span> <span class="n">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">numBits</span> <span class="o">==</span> <span class="n">VAR_NUM_SIGNED_FIRST_BYTE</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">writeBool</span><span class="p">(</span><span class="n">sign</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">numBits</span> <span class="o">!=</span> <span class="n">VAR_NUM_LAST_BYTE</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">writeBool</span><span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># has next byte</span>
-            <span class="n">shiftBits</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">numBytes</span> <span class="o">==</span> <span class="n">maxNumBytes</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">((</span><span class="n">absValue</span> <span class="o">&gt;&gt;</span> <span class="n">shiftBits</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">VAR_NUM_BIT_MASKS</span><span class="p">[</span><span class="n">numBits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">numBits</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">_writeVarNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">maxVarBytes</span><span class="p">,</span> <span class="n">numVarBytes</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">isSigned</span><span class="p">):</span>
+        <span class="n">absValue</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">hasMaxByteRange</span> <span class="o">=</span> <span class="p">(</span><span class="n">numVarBytes</span> <span class="o">==</span> <span class="n">maxVarBytes</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numVarBytes</span><span class="p">):</span>
+            <span class="n">byte</span> <span class="o">=</span> <span class="mh">0x00</span>
+            <span class="n">numBits</span> <span class="o">=</span> <span class="mi">8</span>
+            <span class="n">hasNextByte</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">numVarBytes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">hasSignBit</span> <span class="o">=</span> <span class="p">(</span><span class="n">isSigned</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">hasSignBit</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">byte</span> <span class="o">|=</span> <span class="mh">0x80</span>
+                <span class="n">numBits</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">hasNextByte</span><span class="p">:</span>
+                <span class="n">numBits</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">byte</span> <span class="o">|=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">numBits</span><span class="p">)</span> <span class="c1"># use bit 6 if signed bit is present, use bit 7 otherwise</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># this is the last byte</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">hasMaxByteRange</span><span class="p">:</span> <span class="c1"># next byte indicator is not used in last byte in case of max byte range</span>
+                    <span class="n">numBits</span> <span class="o">-=</span> <span class="mi">1</span>
+
+            <span class="n">shiftBits</span> <span class="o">=</span> <span class="p">(</span><span class="n">numVarBytes</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">hasMaxByteRange</span> <span class="ow">and</span> <span class="n">hasNextByte</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">byte</span> <span class="o">|=</span> <span class="p">(</span><span class="n">absValue</span> <span class="o">&gt;&gt;</span> <span class="n">shiftBits</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">VAR_NUM_BIT_MASKS</span><span class="p">[</span><span class="n">numBits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeBits</span><span class="p">(</span><span class="n">byte</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span></div>
 
 <span class="n">VAR_NUM_BIT_MASKS</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span> <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x1f</span><span class="p">,</span> <span class="mh">0x3f</span><span class="p">,</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">]</span>
-<span class="n">VAR_NUM_SIGNED_FIRST_BYTE</span> <span class="o">=</span> <span class="mi">6</span>
-<span class="n">VAR_NUM_LAST_BYTE</span> <span class="o">=</span> <span class="mi">8</span>
-
-<span class="n">VARINT16_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="n">VARINT32_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="n">VARINT64_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="n">VARINT_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="n">VARUINT16_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="n">VARUINT32_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="n">VARUINT64_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="n">VARUINT_NUM_BITS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
 </pre></div>
 
           </div>
@@ -388,7 +389,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 1.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

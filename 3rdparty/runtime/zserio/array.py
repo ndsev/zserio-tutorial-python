@@ -5,9 +5,10 @@ The module implements abstraction for arrays used by Zserio python extension.
 from zserio.bitposition import alignTo
 from zserio.bitsizeof import (getBitSizeOfVarUInt16, getBitSizeOfVarUInt32,
                               getBitSizeOfVarUInt64, getBitSizeOfVarUInt,
-                              getBitSizeOfVarInt16, getBitSizeOfVarInt32,
-                              getBitSizeOfVarInt64, getBitSizeOfVarInt,
-                              getBitSizeOfString, getBitSizeOfBitBuffer)
+                              getBitSizeOfVarSize, getBitSizeOfVarInt16,
+                              getBitSizeOfVarInt32, getBitSizeOfVarInt64,
+                              getBitSizeOfVarInt, getBitSizeOfString,
+                              getBitSizeOfBitBuffer)
 from zserio.hashcode import calcHashCode, HASH_SEED
 from zserio.exception import PythonRuntimeException
 
@@ -106,7 +107,7 @@ class Array():
         endBitPosition = bitPosition
         size = len(self._rawArray)
         if self._isAuto:
-            endBitPosition += getBitSizeOfVarUInt64(size)
+            endBitPosition += getBitSizeOfVarSize(size)
 
         if self._arrayTraits.HAS_BITSIZEOF_CONSTANT and size > 0:
             elementSize = self._arrayTraits.bitSizeOf()
@@ -133,7 +134,7 @@ class Array():
         endBitPosition = bitPosition
         size = len(self._rawArray)
         if self._isAuto:
-            endBitPosition += getBitSizeOfVarUInt64(size)
+            endBitPosition += getBitSizeOfVarSize(size)
 
         for index in range(size):
             if self._setOffsetMethod is not None:
@@ -149,24 +150,24 @@ class Array():
 
         :param reader: Bit stream from which to read.
         :param size: Number of elements to read or None in case of implicit or auto arrays.
+
+        :raises PythonRuntimeException: If the array does not have elements with constant bit size.
         """
 
         self._rawArray.clear()
 
         if self._isImplicit:
-            index = 0
-            while True:
-                try:
-                    bitPosition = reader.getBitPosition()
-                    self._rawArray.append(self._arrayTraits.read(reader, index))
-                except PythonRuntimeException:
-                    # set exact end bit position in the stream avoiding padding at the end
-                    reader.setBitPosition(bitPosition)
-                    break
-                index += 1
+            if not self._arrayTraits.HAS_BITSIZEOF_CONSTANT:
+                raise PythonRuntimeException("Array: Implicit array elements must have constant bit size!")
+
+            elementSize = self._arrayTraits.bitSizeOf()
+            remainingBits = reader.getBufferBitSize() - reader.getBitPosition()
+            size = remainingBits // elementSize
+            for index in range(size):
+                self._rawArray.append(self._arrayTraits.read(reader, index))
         else:
             if self._isAuto:
-                size = reader.readVarUInt64()
+                size = reader.readVarSize()
 
             for index in range(size):
                 if self._checkOffsetMethod is not None:
@@ -183,7 +184,7 @@ class Array():
 
         size = len(self._rawArray)
         if self._isAuto:
-            writer.writeVarUInt64(size)
+            writer.writeVarSize(size)
 
         for index in range(size):
             if self._checkOffsetMethod is not None:
@@ -514,6 +515,59 @@ class VarUIntArrayTraits():
         """
 
         writer.writeVarUInt(value)
+
+class VarSizeArrayTraits():
+    """
+    Array traits for Zserio varsize type.
+    """
+
+    HAS_BITSIZEOF_CONSTANT = False
+
+    @staticmethod
+    def bitSizeOf(_bitPosition, value):
+        """
+        Returns length of Zserio varsize type stored in the bit stream in bits.
+
+        :param _bitPosition: Not used.
+        :param value: Zserio varsize type value.
+        :returns: Length of given Zserio varsize type in bits.
+        """
+
+        return getBitSizeOfVarSize(value)
+
+    @staticmethod
+    def initializeOffsets(bitPosition, value):
+        """
+        Initializes indexed offsets for Zserio varsize type.
+
+        :param bitPosition: Current bit stream position.
+        :param value: Zserio varsize type value.
+        :returns: Updated bit stream position which points to the first bit after Zserio varsize type.
+        """
+
+        return bitPosition + VarSizeArrayTraits.bitSizeOf(bitPosition, value)
+
+    @staticmethod
+    def read(reader, _index):
+        """
+        Reads Zserio varsize type from the bit stream.
+
+        :param reader: Bit stream from which to read.
+        :param _index: Not used.
+        """
+
+        return reader.readVarSize()
+
+    @staticmethod
+    def write(writer, value):
+        """
+        Writes Zserio varsize type to the bit stream.
+
+        :param writer: Bit stream where to write.
+        :param value: Zserio varsize type to write.
+        """
+
+        writer.writeVarSize(value)
 
 class VarInt16ArrayTraits():
     """

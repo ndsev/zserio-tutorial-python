@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>zserio.pubsub &#8212; Zserio 2.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for zserio.pubsub</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The module provides classes for Zserio Pub/Sub.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="k">import</span> <span class="n">PythonRuntimeException</span>
+
+<div class="viewcode-block" id="PubsubInterface"><a class="viewcode-back" href="../../api/zserio.PubsubInterface.html#zserio.PubsubInterface">[docs]</a><span class="k">class</span> <span class="nc">PubsubInterface</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Interface for Pub/Sub client backends. &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PubsubInterface.publish"><a class="viewcode-back" href="../../api/zserio.PubsubInterface.html#zserio.PubsubInterface.publish">[docs]</a>    <span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Publishes given data as a specified topic.</span>
+
+<span class="sd">        :param topic: Topic definition.</span>
+<span class="sd">        :param data: Data to publish.</span>
+<span class="sd">        :param context: Context specific for a particular Pub/Sub implementation.</span>
+<span class="sd">        :raises PubsubException: If the publishing fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PubsubInterface.subscribe"><a class="viewcode-back" href="../../api/zserio.PubsubInterface.html#zserio.PubsubInterface.subscribe">[docs]</a>    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subscribes a topic.</span>
+
+<span class="sd">        :param topic: Topic definition to subscribe. Note that the definition format depends on the particular</span>
+<span class="sd">                     Pub/Sub backend implementation and therefore e.g. wildcards can be used only if they are</span>
+<span class="sd">                     supported by Pub/Sub backend.</span>
+<span class="sd">        :param callback: Callback to be called when a message with the specified topic arrives.</span>
+<span class="sd">        :param context: Context specific for a particular Pub/Sub implementation.</span>
+<span class="sd">        :returns: Subscription ID.</span>
+<span class="sd">        :raises PubsubException: If subscribing fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PubsubInterface.unsubscribe"><a class="viewcode-back" href="../../api/zserio.PubsubInterface.html#zserio.PubsubInterface.unsubscribe">[docs]</a>    <span class="k">def</span> <span class="nf">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriptionId</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unsubscribes the subscription with the given ID.</span>
+
+<span class="sd">        :param id: ID of the subscription to be unsubscribed.</span>
+<span class="sd">        :raises PubsubException: If unsubscribing fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="PubsubException"><a class="viewcode-back" href="../../api/zserio.PubsubException.html#zserio.PubsubException">[docs]</a><span class="k">class</span> <span class="nc">PubsubException</span><span class="p">(</span><span class="n">PythonRuntimeException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception thrown in case of an error in Zserio Pub/Sub.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/Zserio.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright Copyright (c) 2018, Navigation Data Standard e.v..
+    </div>
+  </body>
+</html>

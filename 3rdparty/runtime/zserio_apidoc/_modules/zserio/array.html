@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>zserio.array &#8212; Zserio 1.4.0 documentation</title>
+    <title>zserio.array &#8212; Zserio 2.0.0 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 1.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -45,9 +45,10 @@
 <span class="kn">from</span> <span class="nn">zserio.bitposition</span> <span class="k">import</span> <span class="n">alignTo</span>
 <span class="kn">from</span> <span class="nn">zserio.bitsizeof</span> <span class="k">import</span> <span class="p">(</span><span class="n">getBitSizeOfVarUInt16</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt32</span><span class="p">,</span>
                               <span class="n">getBitSizeOfVarUInt64</span><span class="p">,</span> <span class="n">getBitSizeOfVarUInt</span><span class="p">,</span>
-                              <span class="n">getBitSizeOfVarInt16</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt32</span><span class="p">,</span>
-                              <span class="n">getBitSizeOfVarInt64</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt</span><span class="p">,</span>
-                              <span class="n">getBitSizeOfString</span><span class="p">,</span> <span class="n">getBitSizeOfBitBuffer</span><span class="p">)</span>
+                              <span class="n">getBitSizeOfVarSize</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt16</span><span class="p">,</span>
+                              <span class="n">getBitSizeOfVarInt32</span><span class="p">,</span> <span class="n">getBitSizeOfVarInt64</span><span class="p">,</span>
+                              <span class="n">getBitSizeOfVarInt</span><span class="p">,</span> <span class="n">getBitSizeOfString</span><span class="p">,</span>
+                              <span class="n">getBitSizeOfBitBuffer</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">zserio.hashcode</span> <span class="k">import</span> <span class="n">calcHashCode</span><span class="p">,</span> <span class="n">HASH_SEED</span>
 <span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="k">import</span> <span class="n">PythonRuntimeException</span>
 
@@ -146,7 +147,7 @@
         <span class="n">endBitPosition</span> <span class="o">=</span> <span class="n">bitPosition</span>
         <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rawArray</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isAuto</span><span class="p">:</span>
-            <span class="n">endBitPosition</span> <span class="o">+=</span> <span class="n">getBitSizeOfVarUInt64</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">endBitPosition</span> <span class="o">+=</span> <span class="n">getBitSizeOfVarSize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arrayTraits</span><span class="o">.</span><span class="n">HAS_BITSIZEOF_CONSTANT</span> <span class="ow">and</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">elementSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arrayTraits</span><span class="o">.</span><span class="n">bitSizeOf</span><span class="p">()</span>
@@ -173,7 +174,7 @@
         <span class="n">endBitPosition</span> <span class="o">=</span> <span class="n">bitPosition</span>
         <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rawArray</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isAuto</span><span class="p">:</span>
-            <span class="n">endBitPosition</span> <span class="o">+=</span> <span class="n">getBitSizeOfVarUInt64</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">endBitPosition</span> <span class="o">+=</span> <span class="n">getBitSizeOfVarSize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setOffsetMethod</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -189,24 +190,24 @@
 
 <span class="sd">        :param reader: Bit stream from which to read.</span>
 <span class="sd">        :param size: Number of elements to read or None in case of implicit or auto arrays.</span>
+
+<span class="sd">        :raises PythonRuntimeException: If the array does not have elements with constant bit size.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_rawArray</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isImplicit</span><span class="p">:</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">bitPosition</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">getBitPosition</span><span class="p">()</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_rawArray</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_arrayTraits</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span>
-                <span class="k">except</span> <span class="n">PythonRuntimeException</span><span class="p">:</span>
-                    <span class="c1"># set exact end bit position in the stream avoiding padding at the end</span>
-                    <span class="n">reader</span><span class="o">.</span><span class="n">setBitPosition</span><span class="p">(</span><span class="n">bitPosition</span><span class="p">)</span>
-                    <span class="k">break</span>
-                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arrayTraits</span><span class="o">.</span><span class="n">HAS_BITSIZEOF_CONSTANT</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;Array: Implicit array elements must have constant bit size!&quot;</span><span class="p">)</span>
+
+            <span class="n">elementSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arrayTraits</span><span class="o">.</span><span class="n">bitSizeOf</span><span class="p">()</span>
+            <span class="n">remainingBits</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">getBufferBitSize</span><span class="p">()</span> <span class="o">-</span> <span class="n">reader</span><span class="o">.</span><span class="n">getBitPosition</span><span class="p">()</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">remainingBits</span> <span class="o">//</span> <span class="n">elementSize</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_rawArray</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_arrayTraits</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">index</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isAuto</span><span class="p">:</span>
-                <span class="n">size</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">readVarUInt64</span><span class="p">()</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">readVarSize</span><span class="p">()</span>
 
             <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkOffsetMethod</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -223,7 +224,7 @@
 
         <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rawArray</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_isAuto</span><span class="p">:</span>
-            <span class="n">writer</span><span class="o">.</span><span class="n">writeVarUInt64</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writeVarSize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkOffsetMethod</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -554,6 +555,59 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">writer</span><span class="o">.</span><span class="n">writeVarUInt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="VarSizeArrayTraits"><a class="viewcode-back" href="../../api/zserio.array.VarSizeArrayTraits.html#zserio.array.VarSizeArrayTraits">[docs]</a><span class="k">class</span> <span class="nc">VarSizeArrayTraits</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Array traits for Zserio varsize type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">HAS_BITSIZEOF_CONSTANT</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="VarSizeArrayTraits.bitSizeOf"><a class="viewcode-back" href="../../api/zserio.array.VarSizeArrayTraits.html#zserio.array.VarSizeArrayTraits.bitSizeOf">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bitSizeOf</span><span class="p">(</span><span class="n">_bitPosition</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns length of Zserio varsize type stored in the bit stream in bits.</span>
+
+<span class="sd">        :param _bitPosition: Not used.</span>
+<span class="sd">        :param value: Zserio varsize type value.</span>
+<span class="sd">        :returns: Length of given Zserio varsize type in bits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">getBitSizeOfVarSize</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VarSizeArrayTraits.initializeOffsets"><a class="viewcode-back" href="../../api/zserio.array.VarSizeArrayTraits.html#zserio.array.VarSizeArrayTraits.initializeOffsets">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">initializeOffsets</span><span class="p">(</span><span class="n">bitPosition</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes indexed offsets for Zserio varsize type.</span>
+
+<span class="sd">        :param bitPosition: Current bit stream position.</span>
+<span class="sd">        :param value: Zserio varsize type value.</span>
+<span class="sd">        :returns: Updated bit stream position which points to the first bit after Zserio varsize type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">bitPosition</span> <span class="o">+</span> <span class="n">VarSizeArrayTraits</span><span class="o">.</span><span class="n">bitSizeOf</span><span class="p">(</span><span class="n">bitPosition</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VarSizeArrayTraits.read"><a class="viewcode-back" href="../../api/zserio.array.VarSizeArrayTraits.html#zserio.array.VarSizeArrayTraits.read">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">_index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads Zserio varsize type from the bit stream.</span>
+
+<span class="sd">        :param reader: Bit stream from which to read.</span>
+<span class="sd">        :param _index: Not used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">reader</span><span class="o">.</span><span class="n">readVarSize</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="VarSizeArrayTraits.write"><a class="viewcode-back" href="../../api/zserio.array.VarSizeArrayTraits.html#zserio.array.VarSizeArrayTraits.write">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes Zserio varsize type to the bit stream.</span>
+
+<span class="sd">        :param writer: Bit stream where to write.</span>
+<span class="sd">        :param value: Zserio varsize type to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">writer</span><span class="o">.</span><span class="n">writeVarSize</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="VarInt16ArrayTraits"><a class="viewcode-back" href="../../api/zserio.array.VarInt16ArrayTraits.html#zserio.array.VarInt16ArrayTraits">[docs]</a><span class="k">class</span> <span class="nc">VarInt16ArrayTraits</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1170,7 +1224,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 1.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

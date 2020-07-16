@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>zserio.bitbuffer &#8212; Zserio 2.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for zserio.bitbuffer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The module implements abstraction for holding bit sequence.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="k">import</span> <span class="n">PythonRuntimeException</span>
+<span class="kn">from</span> <span class="nn">zserio.hashcode</span> <span class="k">import</span> <span class="n">HASH_SEED</span>
+<span class="kn">from</span> <span class="nn">zserio.hashcode</span> <span class="k">import</span> <span class="n">calcHashCode</span>
+
+<div class="viewcode-block" id="BitBuffer"><a class="viewcode-back" href="../../api/zserio.BitBuffer.html#zserio.BitBuffer">[docs]</a><span class="k">class</span> <span class="nc">BitBuffer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bit buffer.</span>
+
+<span class="sd">    Because bit buffer size does not have to be byte aligned (divisible by 8), it&#39;s possible that not all bits</span>
+<span class="sd">    of the last byte are used. In this case, only most significant bits of the corresponded size are used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">bitSize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs bit buffer from bytes buffer and bit size.</span>
+
+<span class="sd">        :param buffer: Bytes-like buffer to construct from.</span>
+<span class="sd">        :param bitSize: Number of bits stored in buffer to use.</span>
+<span class="sd">        :raises PythonRuntimeException: If the numBits is invalid number of the reading goes behind the stream.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">bitSize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bitSize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">&lt;</span> <span class="n">bitSize</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitBuffer: Bit size </span><span class="si">%d</span><span class="s2"> out of range for given buffer byte &quot;</span>
+                                         <span class="s2">&quot;size </span><span class="si">%d</span><span class="s2">!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">bitSize</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">buffer</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span> <span class="o">=</span> <span class="n">buffer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span> <span class="o">=</span> <span class="n">bitSize</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">BitBuffer</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">_bitSize</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">byteSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getByteSize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">byteSize</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">byteSize</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">byteSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">byteSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getMaskedLastByte</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">_getMaskedLastByte</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">HASH_SEED</span>
+        <span class="n">byteSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getByteSize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">byteSize</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">byteSize</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">byteSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">calcHashCode</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">hash</span><span class="p">(</span><span class="n">element</span><span class="p">))</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">calcHashCode</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_getMaskedLastByte</span><span class="p">()))</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+<div class="viewcode-block" id="BitBuffer.getBuffer"><a class="viewcode-back" href="../../api/zserio.BitBuffer.html#zserio.BitBuffer.getBuffer">[docs]</a>    <span class="k">def</span> <span class="nf">getBuffer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the underlying byte buffer.</span>
+
+<span class="sd">        Not all bits of the last byte must be used.</span>
+
+<span class="sd">        :returns: The underlying byte buffer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span></div>
+
+<div class="viewcode-block" id="BitBuffer.getBitSize"><a class="viewcode-back" href="../../api/zserio.BitBuffer.html#zserio.BitBuffer.getBitSize">[docs]</a>    <span class="k">def</span> <span class="nf">getBitSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the number of bits stored in the bit buffer.</span>
+
+<span class="sd">        :returns: Size of the bit buffer in bits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span></div>
+
+<div class="viewcode-block" id="BitBuffer.getByteSize"><a class="viewcode-back" href="../../api/zserio.BitBuffer.html#zserio.BitBuffer.getByteSize">[docs]</a>    <span class="k">def</span> <span class="nf">getByteSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the number of bytes stored in the bit buffer.</span>
+
+<span class="sd">        :returns: Size of the bit buffer in bytes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span></div>
+
+    <span class="k">def</span> <span class="nf">_getMaskedLastByte</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">roundedByteSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span> <span class="o">//</span> <span class="mi">8</span>
+        <span class="n">lastByteBits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span> <span class="o">-</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">roundedByteSize</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="n">roundedByteSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">lastByteBits</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="n">roundedByteSize</span><span class="p">]</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mh">0xFF</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">lastByteBits</span><span class="p">)))</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/Zserio.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright Copyright (c) 2018, Navigation Data Standard e.v..
+    </div>
+  </body>
+</html>

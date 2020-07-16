@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Zserio Python runtime library documentation &#8212; Zserio 1.4.0 documentation</title>
+    <title>Zserio Python runtime library documentation &#8212; Zserio 2.0.0 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -17,7 +17,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="BitStreamReader" href="api/zserio.BitStreamReader.html" /> 
+    <link rel="next" title="BitBuffer" href="api/zserio.BitBuffer.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -29,9 +29,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="api/zserio.BitStreamReader.html" title="BitStreamReader"
+          <a href="api/zserio.BitBuffer.html" title="BitBuffer"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Zserio 1.4.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Zserio 2.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -59,17 +59,36 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.BitStreamReader.html#zserio.BitStreamReader" title="zserio.BitStreamReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitStreamReader</span></code></a>(buffer)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.BitBuffer.html#zserio.BitBuffer" title="zserio.BitBuffer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitBuffer</span></code></a>(buffer[, bitSize])</p></td>
+<td><p>Bit buffer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.BitStreamReader.html#zserio.BitStreamReader" title="zserio.BitStreamReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitStreamReader</span></code></a>(buffer)</p></td>
 <td><p>Bit stream reader.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.BitStreamWriter.html#zserio.BitStreamWriter" title="zserio.BitStreamWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitStreamWriter</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.BitStreamWriter.html#zserio.BitStreamWriter" title="zserio.BitStreamWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitStreamWriter</span></code></a>()</p></td>
 <td><p>Bit stream writer using bytearray.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PythonRuntimeException</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.PubsubException.html#zserio.PubsubException" title="zserio.PubsubException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PubsubException</span></code></a></p></td>
+<td><p>Exception thrown in case of an error in Zserio Pub/Sub.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.PubsubInterface.html#zserio.PubsubInterface" title="zserio.PubsubInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PubsubInterface</span></code></a></p></td>
+<td><p>Interface for Pub/Sub client backends.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PythonRuntimeException</span></code></a></p></td>
 <td><p>Exception thrown in case of an error in Zserio python runtime library.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.ServiceException.html#zserio.ServiceException" title="zserio.ServiceException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ServiceException</span></code></a></p></td>
+<td><p>Exception thrown in case of an error in Zserio Service</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.ServiceInterface.html#zserio.ServiceInterface" title="zserio.ServiceInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ServiceInterface</span></code></a></p></td>
+<td><p>Generic interface for all Zserio services.</p></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-181f1f0bfca543917d376339299fe8a58ad33063.png" alt="Inheritance diagram of zserio.bitbuffer.BitBuffer, zserio.bitreader.BitStreamReader, zserio.bitwriter.BitStreamWriter, zserio.pubsub.PubsubException, zserio.pubsub.PubsubInterface, zserio.exception.PythonRuntimeException, zserio.service.ServiceException, zserio.service.ServiceInterface" class="inheritance graphviz" /></div>
 </div>
 </div>
 <div class="section" id="module-zserio.array">
@@ -125,17 +144,44 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/zserio.array.VarIntArrayTraits.html#zserio.array.VarIntArrayTraits" title="zserio.array.VarIntArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarIntArrayTraits</span></code></a></p></td>
 <td><p>Array traits for Zserio varint type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.array.VarUInt16ArrayTraits.html#zserio.array.VarUInt16ArrayTraits" title="zserio.array.VarUInt16ArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarUInt16ArrayTraits</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.array.VarSizeArrayTraits.html#zserio.array.VarSizeArrayTraits" title="zserio.array.VarSizeArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarSizeArrayTraits</span></code></a></p></td>
+<td><p>Array traits for Zserio varsize type.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.array.VarUInt16ArrayTraits.html#zserio.array.VarUInt16ArrayTraits" title="zserio.array.VarUInt16ArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarUInt16ArrayTraits</span></code></a></p></td>
 <td><p>Array traits for Zserio varuint16 type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.array.VarUInt32ArrayTraits.html#zserio.array.VarUInt32ArrayTraits" title="zserio.array.VarUInt32ArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarUInt32ArrayTraits</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.array.VarUInt32ArrayTraits.html#zserio.array.VarUInt32ArrayTraits" title="zserio.array.VarUInt32ArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarUInt32ArrayTraits</span></code></a></p></td>
 <td><p>Array traits for Zserio varuint32 type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.array.VarUInt64ArrayTraits.html#zserio.array.VarUInt64ArrayTraits" title="zserio.array.VarUInt64ArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarUInt64ArrayTraits</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.array.VarUInt64ArrayTraits.html#zserio.array.VarUInt64ArrayTraits" title="zserio.array.VarUInt64ArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarUInt64ArrayTraits</span></code></a></p></td>
 <td><p>Array traits for Zserio varuint64 type.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.array.VarUIntArrayTraits.html#zserio.array.VarUIntArrayTraits" title="zserio.array.VarUIntArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarUIntArrayTraits</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.array.VarUIntArrayTraits.html#zserio.array.VarUIntArrayTraits" title="zserio.array.VarUIntArrayTraits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VarUIntArrayTraits</span></code></a></p></td>
 <td><p>Array traits for Zserio varuint type.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-zserio.bitposition">
+<span id="zserio-bitposition-module"></span><h2>zserio.bitposition Module<a class="headerlink" href="#module-zserio.bitposition" title="Permalink to this headline">¶</a></h2>
+<p>The module provides help methods for bit position calculation.</p>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-center">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.bitposition.alignTo.html#zserio.bitposition.alignTo" title="zserio.bitposition.alignTo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">alignTo</span></code></a>(alignmentValue, bitPosition)</p></td>
+<td><p>Aligns the bit size to the given alignment value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.bitposition.bitsToBytes.html#zserio.bitposition.bitsToBytes" title="zserio.bitposition.bitsToBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bitsToBytes</span></code></a>(numBits)</p></td>
+<td><p>Converts number of bits to bytes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.bitposition.bytesToBits.html#zserio.bitposition.bytesToBits" title="zserio.bitposition.bytesToBits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytesToBits</span></code></a>(numBytes)</p></td>
+<td><p>Converts number of bytes to bits.</p></td>
 </tr>
 </tbody>
 </table>
@@ -144,8 +190,8 @@
 <div class="section" id="module-zserio.bitsizeof">
 <span id="zserio-bitsizeof-module"></span><h2>zserio.bitsizeof Module<a class="headerlink" href="#module-zserio.bitsizeof" title="Permalink to this headline">¶</a></h2>
 <p>The module provides help methods to calculate size of nontrivial types.</p>
-<div class="section" id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-center">
 <colgroup>
 <col style="width: 10%" />
@@ -170,16 +216,19 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarInt64.html#zserio.bitsizeof.getBitSizeOfVarInt64" title="zserio.bitsizeof.getBitSizeOfVarInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarInt64</span></code></a>(value)</p></td>
 <td><p>Gets bit size of variable 64-bit signed integer value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarUInt.html#zserio.bitsizeof.getBitSizeOfVarUInt" title="zserio.bitsizeof.getBitSizeOfVarUInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarUInt</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarSize.html#zserio.bitsizeof.getBitSizeOfVarSize" title="zserio.bitsizeof.getBitSizeOfVarSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarSize</span></code></a>(value)</p></td>
+<td><p>Gets bit size of variable size integer value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarUInt.html#zserio.bitsizeof.getBitSizeOfVarUInt" title="zserio.bitsizeof.getBitSizeOfVarUInt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarUInt</span></code></a>(value)</p></td>
 <td><p>Gets bit size of variable unsigned integer value (up to 9 bytes).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarUInt16.html#zserio.bitsizeof.getBitSizeOfVarUInt16" title="zserio.bitsizeof.getBitSizeOfVarUInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarUInt16</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarUInt16.html#zserio.bitsizeof.getBitSizeOfVarUInt16" title="zserio.bitsizeof.getBitSizeOfVarUInt16"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarUInt16</span></code></a>(value)</p></td>
 <td><p>Gets bit size of variable 16-bit unsigned integer value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarUInt32.html#zserio.bitsizeof.getBitSizeOfVarUInt32" title="zserio.bitsizeof.getBitSizeOfVarUInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarUInt32</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarUInt32.html#zserio.bitsizeof.getBitSizeOfVarUInt32" title="zserio.bitsizeof.getBitSizeOfVarUInt32"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarUInt32</span></code></a>(value)</p></td>
 <td><p>Gets bit size of variable 32-bit unsigned integer value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarUInt64.html#zserio.bitsizeof.getBitSizeOfVarUInt64" title="zserio.bitsizeof.getBitSizeOfVarUInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarUInt64</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/zserio.bitsizeof.getBitSizeOfVarUInt64.html#zserio.bitsizeof.getBitSizeOfVarUInt64" title="zserio.bitsizeof.getBitSizeOfVarUInt64"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBitSizeOfVarUInt64</span></code></a>(value)</p></td>
 <td><p>Gets bit size of variable 64-bit unsigned integer value.</p></td>
 </tr>
 </tbody>
@@ -189,8 +238,8 @@
 <div class="section" id="module-zserio.builtin">
 <span id="zserio-builtin-module"></span><h2>zserio.builtin Module<a class="headerlink" href="#module-zserio.builtin" title="Permalink to this headline">¶</a></h2>
 <p>The module provides implementation of zserio built-in operators.</p>
-<div class="section" id="id2">
-<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Functions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-center">
 <colgroup>
 <col style="width: 10%" />
@@ -213,8 +262,8 @@
 <li><p>single precision float point format (<a class="reference external" href="https://en.wikipedia.org/wiki/Single-precision_floating-point_format">https://en.wikipedia.org/wiki/Single-precision_floating-point_format</a>)</p></li>
 <li><p>double precision float point format (<a class="reference external" href="https://en.wikipedia.org/wiki/Double-precision_floating-point_format">https://en.wikipedia.org/wiki/Double-precision_floating-point_format</a>)</p></li>
 </ul>
-<div class="section" id="id3">
-<h3>Functions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>Functions<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-center">
 <colgroup>
 <col style="width: 10%" />
@@ -246,8 +295,8 @@
 <div class="section" id="module-zserio.hashcode">
 <span id="zserio-hashcode-module"></span><h2>zserio.hashcode Module<a class="headerlink" href="#module-zserio.hashcode" title="Permalink to this headline">¶</a></h2>
 <p>The module provides utility methods for hash code calculation.</p>
-<div class="section" id="id4">
-<h3>Functions<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>Functions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <table class="longtable docutils align-center">
 <colgroup>
 <col style="width: 10%" />
@@ -260,6 +309,10 @@
 </tbody>
 </table>
 </div>
+</div>
+<div class="section" id="module-zserio.limits">
+<span id="zserio-limits-module"></span><h2>zserio.limits Module<a class="headerlink" href="#module-zserio.limits" title="Permalink to this headline">¶</a></h2>
+<p>Zserio types limits.</p>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -285,36 +338,42 @@
 <li><a class="reference internal" href="#">Zserio Python runtime library documentation</a><ul>
 <li><a class="reference internal" href="#module-zserio">zserio Package</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-zserio.array">zserio.array Module</a><ul>
 <li><a class="reference internal" href="#id1">Classes</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-zserio.bitsizeof">zserio.bitsizeof Module</a><ul>
+<li><a class="reference internal" href="#module-zserio.bitposition">zserio.bitposition Module</a><ul>
 <li><a class="reference internal" href="#functions">Functions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-zserio.builtin">zserio.builtin Module</a><ul>
+<li><a class="reference internal" href="#module-zserio.bitsizeof">zserio.bitsizeof Module</a><ul>
 <li><a class="reference internal" href="#id2">Functions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-zserio.float">zserio.float Module</a><ul>
+<li><a class="reference internal" href="#module-zserio.builtin">zserio.builtin Module</a><ul>
 <li><a class="reference internal" href="#id3">Functions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-zserio.hashcode">zserio.hashcode Module</a><ul>
+<li><a class="reference internal" href="#module-zserio.float">zserio.float Module</a><ul>
 <li><a class="reference internal" href="#id4">Functions</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#module-zserio.hashcode">zserio.hashcode Module</a><ul>
+<li><a class="reference internal" href="#id5">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-zserio.limits">zserio.limits Module</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
   <h4>Next topic</h4>
-  <p class="topless"><a href="api/zserio.BitStreamReader.html"
-                        title="next chapter">BitStreamReader</a></p>
+  <p class="topless"><a href="api/zserio.BitBuffer.html"
+                        title="next chapter">BitBuffer</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
@@ -339,9 +398,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="api/zserio.BitStreamReader.html" title="BitStreamReader"
+          <a href="api/zserio.BitBuffer.html" title="BitBuffer"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Zserio 1.4.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Zserio 2.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
