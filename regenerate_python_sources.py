@@ -11,7 +11,7 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DOWNLOAD_DIR = os.path.join(ROOT_DIR, os.path.join("build", "download"))
 RUNTIME_DIR = os.path.join(ROOT_DIR, os.path.join("3rdparty", "runtime"))
 SRC_DIR = os.path.join(ROOT_DIR, "src")
-JAVA = "java" 
+JAVA_HOME = os.getenv("JAVA_HOME", None)
 
 def main():
     downloadZserio()
@@ -41,7 +41,7 @@ def downloadZserio():
     latestZserioRuntimeLibsZipFile = zipfile.ZipFile(io.BytesIO(latestZserioRuntimeLibsZip.read()), 'r')
     latestZserioRuntimeLibsZipFile.extractall(DOWNLOAD_DIR)
     print("OK")
-    
+
     print("Copying python runtime...", end = "")  
     downloadedRuntimeDir = os.path.join(DOWNLOAD_DIR, os.path.join("runtime_libs", "python"))
     distutils.dir_util.copy_tree(downloadedRuntimeDir, RUNTIME_DIR)
@@ -52,7 +52,12 @@ def compileZserio():
     zserioLibsDir = os.path.join(DOWNLOAD_DIR, "zserio_libs")
     zserioCore = os.path.join(zserioLibsDir, "zserio_core.jar")
     zserioPython = os.path.join(zserioLibsDir, "zserio_python.jar")
-    zserioCmd = [JAVA,
+    if JAVA_HOME:
+        javaExecutable = os.path.join(JAVA_HOME, "bin", "java")
+    else:
+        javaExecutable = "java"
+
+    zserioCmd = [javaExecutable,
                  "-cp", os.pathsep.join([zserioCore, zserioPython]),
                  "zserio.tools.ZserioTool",
                  "-python", SRC_DIR,
@@ -65,4 +70,3 @@ def compileZserio():
 
 if __name__ == "__main__":
     sys.exit(main())
-
