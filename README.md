@@ -20,7 +20,7 @@ If you want to build from source, please follow the
 Before we start, make sure you have the following components installed:
 
 - Java JRE
-- Python 3.5+
+- Python 3.8+
 
 ## Set up dev environment
 
@@ -225,7 +225,7 @@ and then also some Python experience:
 
 ```python
 # construct skill2 directly from fields
-skill2 = tutorial.Experience.fromFields(4, Language.PYTHON)
+skill2 = tutorial.Experience(4, Language.PYTHON)
 skills.append(skill2)
 ```
 
@@ -294,7 +294,7 @@ print("Salary:", employee.getSalary())
 print("Role:", employee.getRole())
 
 # we have to check for optionals whether they are in the stream
-if employee.hasBonus():
+if employee.isBonusUsed():
         print("Bonus:", employee.getBonus())
 ```
 

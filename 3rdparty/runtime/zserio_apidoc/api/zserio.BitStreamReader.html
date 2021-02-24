@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>BitStreamReader &#8212; Zserio 2.0.0 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BitStreamReader &#8212; Zserio 2.2.0 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -35,7 +35,8 @@
         <li class="right" >
           <a href="zserio.BitBuffer.html" title="BitBuffer"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">BitStreamReader</a></li> 
       </ul>
     </div>  
 
@@ -46,19 +47,28 @@
             
   <div class="section" id="bitstreamreader">
 <h1>BitStreamReader<a class="headerlink" href="#bitstreamreader" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zserio.BitStreamReader">
-<em class="property">class </em><code class="descclassname">zserio.</code><code class="descname">BitStreamReader</code><span class="sig-paren">(</span><em>buffer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">zserio.</span></code><code class="sig-name descname"><span class="pre">BitStreamReader</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bitSize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Bit stream reader.</p>
 <p>Constructs bit stream reader from bytes buffer.</p>
+<p>Because bit buffer size does not have to be byte aligned (divisible by 8), it’s possible that not all
+bits of the last byte are used. In this case, only most significant bits of the corresponded size are
+used.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>buffer</strong> – Bytes-like buffer to read as a bit stream.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buffer</strong> – Bytes-like buffer to read as a bit stream.</p></li>
+<li><p><strong>bitSize</strong> – Number of bits stored in buffer to use.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – If bitSize is out of range.</p>
 </dd>
 </dl>
 <p class="rubric">Methods Summary</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -136,9 +146,9 @@
 </tbody>
 </table>
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.alignTo">
-<code class="descname">alignTo</code><span class="sig-paren">(</span><em>alignment</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.alignTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.alignTo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">alignTo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alignment</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.alignTo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.alignTo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Aligns the bit position according to the aligning value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -150,9 +160,9 @@
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.fromBitBuffer">
-<em class="property">classmethod </em><code class="descname">fromBitBuffer</code><span class="sig-paren">(</span><em>bitBuffer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.fromBitBuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.fromBitBuffer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">fromBitBuffer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bitBuffer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">zserio.bitbuffer.BitBuffer</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">zserio.bitreader.BitStreamReader</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.fromBitBuffer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.fromBitBuffer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs bit stream reader from bit buffer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -161,9 +171,9 @@
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.fromFile">
-<em class="property">classmethod </em><code class="descname">fromFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.fromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.fromFile" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">fromFile</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">zserio.bitreader.BitStreamReader</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.fromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.fromFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs bit stream reader from file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -172,9 +182,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.getBitPosition">
-<code class="descname">getBitPosition</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.getBitPosition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.getBitPosition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">getBitPosition</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.getBitPosition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.getBitPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets current bit position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -183,9 +193,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.getBufferBitSize">
-<code class="descname">getBufferBitSize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.getBufferBitSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.getBufferBitSize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">getBufferBitSize</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.getBufferBitSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.getBufferBitSize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets size of the underlying buffer in bits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -194,9 +204,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readBitBuffer">
-<code class="descname">readBitBuffer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readBitBuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readBitBuffer" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readBitBuffer</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">zserio.bitbuffer.BitBuffer</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readBitBuffer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readBitBuffer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads a bit buffer from the stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -208,9 +218,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readBits">
-<code class="descname">readBits</code><span class="sig-paren">(</span><em>numBits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readBits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readBits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readBits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numBits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readBits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readBits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads given number of bits from the bit stream as an unsigned integer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -225,9 +235,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readBool">
-<code class="descname">readBool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readBool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readBool" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readBool</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readBool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readBool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads single bit as a bool value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -239,9 +249,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readFloat16">
-<code class="descname">readFloat16</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat16" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readFloat16</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../index.html#module-zserio.float" title="zserio.float"><span class="pre">float</span></a><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat16"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 16-bits from the stream as a float value encoded according to IEEE 754 binary16.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -253,9 +263,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readFloat32">
-<code class="descname">readFloat32</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat32" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readFloat32</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../index.html#module-zserio.float" title="zserio.float"><span class="pre">float</span></a><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat32"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat32" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 32-bits from the stream as a float value encoded according to IEEE 754 binary32.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -267,9 +277,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readFloat64">
-<code class="descname">readFloat64</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readFloat64</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../index.html#module-zserio.float" title="zserio.float"><span class="pre">float</span></a><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readFloat64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readFloat64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 64-bits from the stream as a float value encoded according to IEEE 754 binary64.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -281,9 +291,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readSignedBits">
-<code class="descname">readSignedBits</code><span class="sig-paren">(</span><em>numBits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readSignedBits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readSignedBits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readSignedBits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numBits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readSignedBits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readSignedBits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads given number of bits from the bit stream as a signed integer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -298,9 +308,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readString">
-<code class="descname">readString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readString" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readString</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readString" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads string from the stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -312,9 +322,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarInt">
-<code class="descname">readVarInt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarInt</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable signed integer value (up to 9 bytes) from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -323,9 +333,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarInt16">
-<code class="descname">readVarInt16</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt16" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarInt16</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt16"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 16-bit signed integer value from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -334,9 +344,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarInt32">
-<code class="descname">readVarInt32</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt32" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarInt32</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt32"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt32" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 32-bit signed integer value from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -345,9 +355,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarInt64">
-<code class="descname">readVarInt64</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarInt64</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarInt64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarInt64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 64-bit signed integer value from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -356,9 +366,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarSize">
-<code class="descname">readVarSize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarSize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarSize</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarSize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable size integer value from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -370,9 +380,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarUInt">
-<code class="descname">readVarUInt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarUInt</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable unsigned integer value (up to 9 bytes) from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -381,9 +391,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarUInt16">
-<code class="descname">readVarUInt16</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt16" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarUInt16</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt16"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt16" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 16-bit unsigned integer value from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -392,9 +402,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarUInt32">
-<code class="descname">readVarUInt32</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt32" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarUInt32</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt32"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt32" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 32-bit unsigned integer value from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -403,9 +413,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.readVarUInt64">
-<code class="descname">readVarUInt64</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">readVarUInt64</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.readVarUInt64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.readVarUInt64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads variable 64-bit unsigned integer value from the bit stream.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -414,9 +424,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.BitStreamReader.setBitPosition">
-<code class="descname">setBitPosition</code><span class="sig-paren">(</span><em>bitPosition</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.setBitPosition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.BitStreamReader.setBitPosition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">setBitPosition</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bitPosition</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../_modules/zserio/bitreader.html#BitStreamReader.setBitPosition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.BitStreamReader.setBitPosition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets bit position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -433,6 +443,7 @@
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -448,15 +459,15 @@
   <p class="topless"><a href="zserio.BitStreamWriter.html"
                         title="next chapter">BitStreamWriter</a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -476,11 +487,12 @@
         <li class="right" >
           <a href="zserio.BitBuffer.html" title="BitBuffer"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">BitStreamReader</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright Copyright (c) 2018, Navigation Data Standard e.v..
+        &#169; Copyright Copyright (c) 2018-2021, Navigation Data Standard e.v..
     </div>
   </body>
 </html>

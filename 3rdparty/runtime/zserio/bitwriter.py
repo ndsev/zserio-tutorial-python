@@ -2,28 +2,30 @@
 The module implements abstraction for writing data to the bit stream.
 """
 
+from zserio.bitbuffer import BitBuffer
 from zserio.bitsizeof import (getBitSizeOfVarInt16, getBitSizeOfVarInt32,
                               getBitSizeOfVarInt64, getBitSizeOfVarInt,
                               getBitSizeOfVarUInt16, getBitSizeOfVarUInt32,
                               getBitSizeOfVarUInt64, getBitSizeOfVarUInt,
-                              getBitSizeOfVarSize, INT64_MIN)
+                              getBitSizeOfVarSize)
 from zserio.exception import PythonRuntimeException
 from zserio.float import convertFloatToUInt16, convertFloatToUInt32, convertFloatToUInt64
+from zserio.limits import INT64_MIN
 
 class BitStreamWriter:
     """
     Bit stream writer using bytearray.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
         """
 
-        self._byteArray = bytearray()
-        self._bitPosition = 0
+        self._byteArray: bytearray = bytearray()
+        self._bitPosition: int = 0
 
-    def writeBits(self, value, numBits):
+    def writeBits(self, value: int, numBits: int) -> None:
         """
         Writes the given value with the given number of bits to the underlying storage.
 
@@ -43,7 +45,7 @@ class BitStreamWriter:
 
         self._writeBitsImpl(value, numBits, signed=False)
 
-    def writeSignedBits(self, value, numBits):
+    def writeSignedBits(self, value: int, numBits: int) -> None:
         """
         Writes the given signed value with the given number of bits to the underlying storage.
         Provided for convenience.
@@ -64,7 +66,7 @@ class BitStreamWriter:
 
         self._writeBitsImpl(value, numBits, signed=True)
 
-    def writeVarInt16(self, value):
+    def writeVarInt16(self, value: int) -> None:
         """
         Writes a variable 16-bit signed integer value to the underlying storage.
 
@@ -74,7 +76,7 @@ class BitStreamWriter:
 
         self._writeVarNum(value, 2, getBitSizeOfVarInt16(value) // 8, isSigned=True)
 
-    def writeVarInt32(self, value):
+    def writeVarInt32(self, value: int) -> None:
         """
         Writes a variable 32-bit signed integer value to the underlying storage.
 
@@ -84,7 +86,7 @@ class BitStreamWriter:
 
         self._writeVarNum(value, 4, getBitSizeOfVarInt32(value) // 8, isSigned=True)
 
-    def writeVarInt64(self, value):
+    def writeVarInt64(self, value: int) -> None:
         """
         Writes a variable 16-bit signed integer value to the underlying storage.
 
@@ -94,7 +96,7 @@ class BitStreamWriter:
 
         self._writeVarNum(value, 8, getBitSizeOfVarInt64(value) // 8, isSigned=True)
 
-    def writeVarInt(self, value):
+    def writeVarInt(self, value: int) -> None:
         """
         Writes a variable signed integer value (up to 9 bytes) to the underlying storage.
 
@@ -107,7 +109,7 @@ class BitStreamWriter:
         else:
             self._writeVarNum(value, 9, getBitSizeOfVarInt(value) // 8, isSigned=True)
 
-    def writeVarUInt16(self, value):
+    def writeVarUInt16(self, value: int) -> None:
         """
         Writes a variable 16-bit unsigned integer value to the underlying storage.
 
@@ -117,7 +119,7 @@ class BitStreamWriter:
 
         self._writeVarNum(value, 2, getBitSizeOfVarUInt16(value) // 8, isSigned=False)
 
-    def writeVarUInt32(self, value):
+    def writeVarUInt32(self, value: int) -> None:
         """
         Writes a variable 32-bit unsigned integer value to the underlying storage.
 
@@ -127,7 +129,7 @@ class BitStreamWriter:
 
         self._writeVarNum(value, 4, getBitSizeOfVarUInt32(value) // 8, isSigned=False)
 
-    def writeVarUInt64(self, value):
+    def writeVarUInt64(self, value: int) -> None:
         """
         Writes a variable 16-bit unsigned integer value to the underlying storage.
 
@@ -137,7 +139,7 @@ class BitStreamWriter:
 
         self._writeVarNum(value, 8, getBitSizeOfVarUInt64(value) // 8, isSigned=False)
 
-    def writeVarUInt(self, value):
+    def writeVarUInt(self, value: int) -> None:
         """
         Writes a variable unsigned integer value (up to 9 bytes) to the underlying storage.
 
@@ -147,7 +149,7 @@ class BitStreamWriter:
 
         self._writeVarNum(value, 9, getBitSizeOfVarUInt(value) // 8, isSigned=False)
 
-    def writeVarSize(self, value):
+    def writeVarSize(self, value: int) -> None:
         """
         Writes a variable size integer value to the underlying storage.
 
@@ -157,7 +159,7 @@ class BitStreamWriter:
 
         self._writeVarNum(value, 5, getBitSizeOfVarSize(value) // 8, isSigned=False)
 
-    def writeFloat16(self, value):
+    def writeFloat16(self, value: float) -> None:
         """
         Writes a 16-bit float value to the underlying storage according to IEEE 754 binary16.
 
@@ -166,7 +168,7 @@ class BitStreamWriter:
 
         self.writeBits(convertFloatToUInt16(value), 16)
 
-    def writeFloat32(self, value):
+    def writeFloat32(self, value: float) -> None:
         """
         Writes a 32-bit float value to the underlying storage according to IEEE 754 binary32.
 
@@ -175,7 +177,7 @@ class BitStreamWriter:
 
         self.writeBits(convertFloatToUInt32(value), 32)
 
-    def writeFloat64(self, value):
+    def writeFloat64(self, value: float) -> None:
         """
         Writes a 64-bit float value to the underlying storage according to IEEE 754 binary64.
 
@@ -184,7 +186,7 @@ class BitStreamWriter:
 
         self.writeBits(convertFloatToUInt64(value), 64)
 
-    def writeString(self, string):
+    def writeString(self, string: str) -> None:
         """
         Writes the given string to the underlying storage in UTF-8 encoding. Length of the string is written
         as varuint64 at the beginning.
@@ -197,7 +199,7 @@ class BitStreamWriter:
         for stringByte in stringBytes:
             self.writeBits(stringByte, 8)
 
-    def writeBool(self, value):
+    def writeBool(self, value: bool) -> None:
         """
         Writes bool in a single bit.
 
@@ -206,7 +208,7 @@ class BitStreamWriter:
 
         self.writeBits(1 if value else 0, 1)
 
-    def writeBitBuffer(self, bitBuffer):
+    def writeBitBuffer(self, bitBuffer: BitBuffer) -> None:
         """
         Writes a bit buffer to the underlying storage. Length of the bit buffer is written as varuint64
         at the beginning.
@@ -233,7 +235,7 @@ class BitStreamWriter:
         if numRestBits > 0:
             self.writeBits(writeBuffer[numBytesToWrite] >> (8 - numRestBits), numRestBits)
 
-    def getByteArray(self):
+    def getByteArray(self) -> bytes:
         """
         Gets internal bytearray.
 
@@ -242,7 +244,7 @@ class BitStreamWriter:
 
         return self._byteArray
 
-    def toFile(self, filename):
+    def toFile(self, filename: str) -> None:
         """
         Writes underlying bytearray to binary file.
 
@@ -252,7 +254,7 @@ class BitStreamWriter:
         with open(filename, "wb") as file:
             file.write(self._byteArray)
 
-    def getBitPosition(self):
+    def getBitPosition(self) -> int:
         """
         Gets current bit position.
 
@@ -261,7 +263,7 @@ class BitStreamWriter:
 
         return self._bitPosition
 
-    def alignTo(self, alignment):
+    def alignTo(self, alignment: int) -> None:
         """
         Aligns the bit position according to the aligning value.
 
@@ -272,7 +274,7 @@ class BitStreamWriter:
         if offset != 0:
             self.writeBits(0, alignment - offset)
 
-    def _writeBitsImpl(self, value, numBits, *, signed):
+    def _writeBitsImpl(self, value: int, numBits: int, *, signed: bool) -> None:
         bufferLastByteBits = self._bitPosition % 8
         bufferFreeBits = (8 - bufferLastByteBits) if bufferLastByteBits != 0 else 0
         valueFirstByteBits = numBits % 8 or 8
@@ -292,7 +294,7 @@ class BitStreamWriter:
 
         self._bitPosition += numBits
 
-    def _writeVarNum(self, value, maxVarBytes, numVarBytes, *, isSigned):
+    def _writeVarNum(self, value: int, maxVarBytes: int, numVarBytes: int, *, isSigned: bool) -> None:
         absValue = abs(value)
         hasMaxByteRange = (numVarBytes == maxVarBytes)
         for i in range(numVarBytes):

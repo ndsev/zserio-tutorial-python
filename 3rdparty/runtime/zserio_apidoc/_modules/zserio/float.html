@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>zserio.float &#8212; Zserio 2.0.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>zserio.float &#8212; Zserio 2.2.0 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,8 +27,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">zserio.float</a></li> 
       </ul>
     </div>  
 
@@ -50,7 +51,7 @@
 
 <span class="kn">import</span> <span class="nn">struct</span>
 
-<div class="viewcode-block" id="convertUInt16ToFloat"><a class="viewcode-back" href="../../api/zserio.float.convertUInt16ToFloat.html#zserio.float.convertUInt16ToFloat">[docs]</a><span class="k">def</span> <span class="nf">convertUInt16ToFloat</span><span class="p">(</span><span class="n">float16Value</span><span class="p">):</span>
+<div class="viewcode-block" id="convertUInt16ToFloat"><a class="viewcode-back" href="../../api/zserio.float.convertUInt16ToFloat.html#zserio.float.convertUInt16ToFloat">[docs]</a><span class="k">def</span> <span class="nf">convertUInt16ToFloat</span><span class="p">(</span><span class="n">float16Value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts 16-bit float stored as an integer value to python native float.</span>
 
@@ -97,7 +98,7 @@
     <span class="c1"># convert it to float</span>
     <span class="k">return</span> <span class="n">convertUInt32ToFloat</span><span class="p">(</span><span class="n">float32Value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="convertFloatToUInt16"><a class="viewcode-back" href="../../api/zserio.float.convertFloatToUInt16.html#zserio.float.convertFloatToUInt16">[docs]</a><span class="k">def</span> <span class="nf">convertFloatToUInt16</span><span class="p">(</span><span class="n">float64</span><span class="p">):</span>
+<div class="viewcode-block" id="convertFloatToUInt16"><a class="viewcode-back" href="../../api/zserio.float.convertFloatToUInt16.html#zserio.float.convertFloatToUInt16">[docs]</a><span class="k">def</span> <span class="nf">convertFloatToUInt16</span><span class="p">(</span><span class="n">float64</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts python native float to 16-bit float stored as integer value.</span>
 
@@ -165,7 +166,7 @@
 
     <span class="k">return</span> <span class="n">float16Value</span></div>
 
-<div class="viewcode-block" id="convertUInt32ToFloat"><a class="viewcode-back" href="../../api/zserio.float.convertUInt32ToFloat.html#zserio.float.convertUInt32ToFloat">[docs]</a><span class="k">def</span> <span class="nf">convertUInt32ToFloat</span><span class="p">(</span><span class="n">float32Value</span><span class="p">):</span>
+<div class="viewcode-block" id="convertUInt32ToFloat"><a class="viewcode-back" href="../../api/zserio.float.convertUInt32ToFloat.html#zserio.float.convertUInt32ToFloat">[docs]</a><span class="k">def</span> <span class="nf">convertUInt32ToFloat</span><span class="p">(</span><span class="n">float32Value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts 32-bit float stored as an integer value to python native float.</span>
 
@@ -177,7 +178,7 @@
 
     <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;f&#39;</span><span class="p">,</span> <span class="n">float32ValueInBytes</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="convertFloatToUInt32"><a class="viewcode-back" href="../../api/zserio.float.convertFloatToUInt32.html#zserio.float.convertFloatToUInt32">[docs]</a><span class="k">def</span> <span class="nf">convertFloatToUInt32</span><span class="p">(</span><span class="n">float64</span><span class="p">):</span>
+<div class="viewcode-block" id="convertFloatToUInt32"><a class="viewcode-back" href="../../api/zserio.float.convertFloatToUInt32.html#zserio.float.convertFloatToUInt32">[docs]</a><span class="k">def</span> <span class="nf">convertFloatToUInt32</span><span class="p">(</span><span class="n">float64</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts python native float to 32-bit float stored as integer value.</span>
 
@@ -189,7 +190,7 @@
 
     <span class="k">return</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">float32ValueInBytes</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="convertUInt64ToFloat"><a class="viewcode-back" href="../../api/zserio.float.convertUInt64ToFloat.html#zserio.float.convertUInt64ToFloat">[docs]</a><span class="k">def</span> <span class="nf">convertUInt64ToFloat</span><span class="p">(</span><span class="n">float64Value</span><span class="p">):</span>
+<div class="viewcode-block" id="convertUInt64ToFloat"><a class="viewcode-back" href="../../api/zserio.float.convertUInt64ToFloat.html#zserio.float.convertUInt64ToFloat">[docs]</a><span class="k">def</span> <span class="nf">convertUInt64ToFloat</span><span class="p">(</span><span class="n">float64Value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts 64-bit float stored as an integer value to python native float.</span>
 
@@ -201,7 +202,7 @@
 
     <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;d&#39;</span><span class="p">,</span> <span class="n">float64ValueInBytes</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="convertFloatToUInt64"><a class="viewcode-back" href="../../api/zserio.float.convertFloatToUInt64.html#zserio.float.convertFloatToUInt64">[docs]</a><span class="k">def</span> <span class="nf">convertFloatToUInt64</span><span class="p">(</span><span class="n">float64</span><span class="p">):</span>
+<div class="viewcode-block" id="convertFloatToUInt64"><a class="viewcode-back" href="../../api/zserio.float.convertFloatToUInt64.html#zserio.float.convertFloatToUInt64">[docs]</a><span class="k">def</span> <span class="nf">convertFloatToUInt64</span><span class="p">(</span><span class="n">float64</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts python native float to 64-bit float stored as integer value.</span>
 
@@ -238,6 +239,7 @@
 <span class="n">FLOAT32_EXPONENT_BIAS</span> <span class="o">=</span> <span class="mi">127</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -247,15 +249,15 @@
               <img class="logo" src="../../_static/Zserio.png" alt="Logo"/>
             </a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -269,12 +271,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">zserio.float</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright Copyright (c) 2018, Navigation Data Standard e.v..
+        &#169; Copyright Copyright (c) 2018-2021, Navigation Data Standard e.v..
     </div>
   </body>
 </html>

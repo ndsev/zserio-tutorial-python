@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>getBitSizeOfVarUInt64 &#8212; Zserio 2.2.0 documentation</title>
+    <title>deserializeBytes &#8212; Zserio 2.2.0 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -17,8 +17,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="getNumBits" href="zserio.builtin.getNumBits.html" />
-    <link rel="prev" title="getBitSizeOfVarUInt32" href="zserio.bitsizeof.getBitSizeOfVarUInt32.html" /> 
+    <link rel="next" title="serialize" href="zserio.serialize.html" />
+    <link rel="prev" title="deserialize" href="zserio.deserialize.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -30,13 +30,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="zserio.builtin.getNumBits.html" title="getNumBits"
+          <a href="zserio.serialize.html" title="serialize"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="zserio.bitsizeof.getBitSizeOfVarUInt32.html" title="getBitSizeOfVarUInt32"
+          <a href="zserio.deserialize.html" title="deserialize"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">getBitSizeOfVarUInt64</a></li> 
+        <li class="nav-item nav-item-this"><a href="">deserializeBytes</a></li> 
       </ul>
     </div>  
 
@@ -45,21 +45,28 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="getbitsizeofvaruint64">
-<h1>getBitSizeOfVarUInt64<a class="headerlink" href="#getbitsizeofvaruint64" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="deserializebytes">
+<h1>deserializeBytes<a class="headerlink" href="#deserializebytes" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="zserio.bitsizeof.getBitSizeOfVarUInt64">
-<code class="sig-prename descclassname"><span class="pre">zserio.bitsizeof.</span></code><code class="sig-name descname"><span class="pre">getBitSizeOfVarUInt64</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitsizeof.html#getBitSizeOfVarUInt64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.bitsizeof.getBitSizeOfVarUInt64" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets bit size of variable 64-bit unsigned integer value.</p>
+<dt id="zserio.deserializeBytes">
+<code class="sig-prename descclassname"><span class="pre">zserio.</span></code><code class="sig-name descname"><span class="pre">deserializeBytes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objClass</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Any</span><a class="reference internal" href="../_modules/zserio/serialization.html#deserializeBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.deserializeBytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deserializes byte buffer to the generated object.</p>
+<p>This method can potentially use all bits of the last byte even if not all of them were written during
+serialization (because there is no way how to specify exact number of bits). Thus, it could allow reading
+behind stream (possibly in case of damaged data).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>value</strong> – Value to use for bit size calculation.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objClass</strong> – Class instance of the generated object to deserialize.</p></li>
+<li><p><strong>buffer</strong> – Byte buffer which represents generated object in binary format.</p></li>
+<li><p><strong>args</strong> – Additional arguments needed for objClass.fromReader method.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Bit size of the value.</p>
+<dd class="field-even"><p>Generated object created from given byte buffer.</p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – Throws if given value is out of range for varuint64 type.</p>
+<dd class="field-odd"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – Throws in case of any error during deserialization.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -77,11 +84,11 @@
               <img class="logo" src="../_static/Zserio.png" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
-  <p class="topless"><a href="zserio.bitsizeof.getBitSizeOfVarUInt32.html"
-                        title="previous chapter">getBitSizeOfVarUInt32</a></p>
+  <p class="topless"><a href="zserio.deserialize.html"
+                        title="previous chapter">deserialize</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="zserio.builtin.getNumBits.html"
-                        title="next chapter">getNumBits</a></p>
+  <p class="topless"><a href="zserio.serialize.html"
+                        title="next chapter">serialize</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -106,13 +113,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="zserio.builtin.getNumBits.html" title="getNumBits"
+          <a href="zserio.serialize.html" title="serialize"
              >next</a> |</li>
         <li class="right" >
-          <a href="zserio.bitsizeof.getBitSizeOfVarUInt32.html" title="getBitSizeOfVarUInt32"
+          <a href="zserio.deserialize.html" title="deserialize"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">getBitSizeOfVarUInt64</a></li> 
+        <li class="nav-item nav-item-this"><a href="">deserializeBytes</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

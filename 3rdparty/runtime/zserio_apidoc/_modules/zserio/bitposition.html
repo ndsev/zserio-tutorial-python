@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>zserio.bitposition &#8212; Zserio 2.0.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>zserio.bitposition &#8212; Zserio 2.2.0 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,8 +27,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">zserio.bitposition</a></li> 
       </ul>
     </div>  
 
@@ -42,9 +43,9 @@
 <span class="sd">The module provides help methods for bit position calculation.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="k">import</span> <span class="n">PythonRuntimeException</span>
+<span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="kn">import</span> <span class="n">PythonRuntimeException</span>
 
-<div class="viewcode-block" id="alignTo"><a class="viewcode-back" href="../../api/zserio.bitposition.alignTo.html#zserio.bitposition.alignTo">[docs]</a><span class="k">def</span> <span class="nf">alignTo</span><span class="p">(</span><span class="n">alignmentValue</span><span class="p">,</span> <span class="n">bitPosition</span><span class="p">):</span>
+<div class="viewcode-block" id="alignTo"><a class="viewcode-back" href="../../api/zserio.bitposition.alignTo.html#zserio.bitposition.alignTo">[docs]</a><span class="k">def</span> <span class="nf">alignTo</span><span class="p">(</span><span class="n">alignmentValue</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bitPosition</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Aligns the bit size to the given alignment value.</span>
 
@@ -58,7 +59,7 @@
 
     <span class="k">return</span> <span class="p">(((</span><span class="n">bitPosition</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">alignmentValue</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">alignmentValue</span></div>
 
-<div class="viewcode-block" id="bitsToBytes"><a class="viewcode-back" href="../../api/zserio.bitposition.bitsToBytes.html#zserio.bitposition.bitsToBytes">[docs]</a><span class="k">def</span> <span class="nf">bitsToBytes</span><span class="p">(</span><span class="n">numBits</span><span class="p">):</span>
+<div class="viewcode-block" id="bitsToBytes"><a class="viewcode-back" href="../../api/zserio.bitposition.bitsToBytes.html#zserio.bitposition.bitsToBytes">[docs]</a><span class="k">def</span> <span class="nf">bitsToBytes</span><span class="p">(</span><span class="n">numBits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts number of bits to bytes.</span>
 
@@ -72,7 +73,7 @@
 
     <span class="k">return</span> <span class="n">numBits</span> <span class="o">//</span> <span class="mi">8</span></div>
 
-<div class="viewcode-block" id="bytesToBits"><a class="viewcode-back" href="../../api/zserio.bitposition.bytesToBits.html#zserio.bitposition.bytesToBits">[docs]</a><span class="k">def</span> <span class="nf">bytesToBits</span><span class="p">(</span><span class="n">numBytes</span><span class="p">):</span>
+<div class="viewcode-block" id="bytesToBits"><a class="viewcode-back" href="../../api/zserio.bitposition.bytesToBits.html#zserio.bitposition.bytesToBits">[docs]</a><span class="k">def</span> <span class="nf">bytesToBits</span><span class="p">(</span><span class="n">numBytes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts number of bytes to bits.</span>
 
@@ -83,6 +84,7 @@
     <span class="k">return</span> <span class="n">numBytes</span> <span class="o">*</span> <span class="mi">8</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -92,15 +94,15 @@
               <img class="logo" src="../../_static/Zserio.png" alt="Logo"/>
             </a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -114,12 +116,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">zserio.bitposition</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright Copyright (c) 2018, Navigation Data Standard e.v..
+        &#169; Copyright Copyright (c) 2018-2021, Navigation Data Standard e.v..
     </div>
   </body>
 </html>

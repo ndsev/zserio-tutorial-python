@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>PubsubInterface &#8212; Zserio 2.0.0 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PubsubInterface &#8212; Zserio 2.2.0 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -35,7 +35,8 @@
         <li class="right" >
           <a href="zserio.PubsubException.html" title="PubsubException"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PubsubInterface</a></li> 
       </ul>
     </div>  
 
@@ -46,22 +47,22 @@
             
   <div class="section" id="pubsubinterface">
 <h1>PubsubInterface<a class="headerlink" href="#pubsubinterface" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="zserio.PubsubInterface">
-<em class="property">class </em><code class="descclassname">zserio.</code><code class="descname">PubsubInterface</code><a class="reference internal" href="../_modules/zserio/pubsub.html#PubsubInterface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.PubsubInterface" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">zserio.</span></code><code class="sig-name descname"><span class="pre">PubsubInterface</span></code><a class="reference internal" href="../_modules/zserio/pubsub.html#PubsubInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.PubsubInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Interface for Pub/Sub client backends.</p>
 <p class="rubric">Methods Summary</p>
-<table class="longtable docutils align-center">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.PubsubInterface.publish" title="zserio.PubsubInterface.publish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">publish</span></code></a>(topic, data, context)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#zserio.PubsubInterface.publish" title="zserio.PubsubInterface.publish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">publish</span></code></a>(topic, data[, context])</p></td>
 <td><p>Publishes given data as a specified topic.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#zserio.PubsubInterface.subscribe" title="zserio.PubsubInterface.subscribe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscribe</span></code></a>(topic, callback, context)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#zserio.PubsubInterface.subscribe" title="zserio.PubsubInterface.subscribe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscribe</span></code></a>(topic, callback[, context])</p></td>
 <td><p>Subscribes a topic.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#zserio.PubsubInterface.unsubscribe" title="zserio.PubsubInterface.unsubscribe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unsubscribe</span></code></a>(subscriptionId)</p></td>
@@ -70,9 +71,9 @@
 </tbody>
 </table>
 <p class="rubric">Methods Documentation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.PubsubInterface.publish">
-<code class="descname">publish</code><span class="sig-paren">(</span><em>topic</em>, <em>data</em>, <em>context</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/pubsub.html#PubsubInterface.publish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.PubsubInterface.publish" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">publish</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../_modules/zserio/pubsub.html#PubsubInterface.publish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.PubsubInterface.publish" title="Permalink to this definition">¶</a></dt>
 <dd><p>Publishes given data as a specified topic.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -88,9 +89,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.PubsubInterface.subscribe">
-<code class="descname">subscribe</code><span class="sig-paren">(</span><em>topic</em>, <em>callback</em>, <em>context</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/pubsub.html#PubsubInterface.subscribe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.PubsubInterface.subscribe" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">subscribe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topic</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/pubsub.html#PubsubInterface.subscribe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.PubsubInterface.subscribe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subscribes a topic.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -111,9 +112,9 @@ supported by Pub/Sub backend.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="zserio.PubsubInterface.unsubscribe">
-<code class="descname">unsubscribe</code><span class="sig-paren">(</span><em>subscriptionId</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/zserio/pubsub.html#PubsubInterface.unsubscribe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zserio.PubsubInterface.unsubscribe" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">unsubscribe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subscriptionId</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../_modules/zserio/pubsub.html#PubsubInterface.unsubscribe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.PubsubInterface.unsubscribe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unsubscribes the subscription with the given ID.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -130,6 +131,7 @@ supported by Pub/Sub backend.</p></li>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -145,15 +147,15 @@ supported by Pub/Sub backend.</p></li>
   <p class="topless"><a href="zserio.PythonRuntimeException.html"
                         title="next chapter">PythonRuntimeException</a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -173,11 +175,12 @@ supported by Pub/Sub backend.</p></li>
         <li class="right" >
           <a href="zserio.PubsubException.html" title="PubsubException"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.0.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">PubsubInterface</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright Copyright (c) 2018, Navigation Data Standard e.v..
+        &#169; Copyright Copyright (c) 2018-2021, Navigation Data Standard e.v..
     </div>
   </body>
 </html>

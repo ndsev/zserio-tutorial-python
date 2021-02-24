@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>getBitSizeOfVarUInt64 &#8212; Zserio 2.2.0 documentation</title>
+    <title>serialize &#8212; Zserio 2.2.0 documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -17,8 +17,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="getNumBits" href="zserio.builtin.getNumBits.html" />
-    <link rel="prev" title="getBitSizeOfVarUInt32" href="zserio.bitsizeof.getBitSizeOfVarUInt32.html" /> 
+    <link rel="next" title="serializeToBytes" href="zserio.serializeToBytes.html" />
+    <link rel="prev" title="deserializeBytes" href="zserio.deserializeBytes.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -30,13 +30,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="zserio.builtin.getNumBits.html" title="getNumBits"
+          <a href="zserio.serializeToBytes.html" title="serializeToBytes"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="zserio.bitsizeof.getBitSizeOfVarUInt32.html" title="getBitSizeOfVarUInt32"
+          <a href="zserio.deserializeBytes.html" title="deserializeBytes"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">getBitSizeOfVarUInt64</a></li> 
+        <li class="nav-item nav-item-this"><a href="">serialize</a></li> 
       </ul>
     </div>  
 
@@ -45,21 +45,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="getbitsizeofvaruint64">
-<h1>getBitSizeOfVarUInt64<a class="headerlink" href="#getbitsizeofvaruint64" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="serialize">
+<h1>serialize<a class="headerlink" href="#serialize" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="zserio.bitsizeof.getBitSizeOfVarUInt64">
-<code class="sig-prename descclassname"><span class="pre">zserio.bitsizeof.</span></code><code class="sig-name descname"><span class="pre">getBitSizeOfVarUInt64</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="reference internal" href="../_modules/zserio/bitsizeof.html#getBitSizeOfVarUInt64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.bitsizeof.getBitSizeOfVarUInt64" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets bit size of variable 64-bit unsigned integer value.</p>
+<dt id="zserio.serialize">
+<code class="sig-prename descclassname"><span class="pre">zserio.</span></code><code class="sig-name descname"><span class="pre">serialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">zserio.bitbuffer.BitBuffer</span><a class="reference internal" href="../_modules/zserio/serialization.html#serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#zserio.serialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes generated object to the bit buffer.</p>
+<p>Because serialization to the bit buffer does not have to be byte aligned (divisible by 8), it’s possible
+that not all bits of the last byte are used. In this case, only most significant bits of the corresponded
+size are used.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>value</strong> – Value to use for bit size calculation.</p>
+<dd class="field-odd"><p><strong>obj</strong> – Generated object to serialize.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Bit size of the value.</p>
+<dd class="field-even"><p>Bit buffer which represents generated object in binary format.</p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – Throws if given value is out of range for varuint64 type.</p>
+<dd class="field-odd"><p><a class="reference internal" href="zserio.PythonRuntimeException.html#zserio.PythonRuntimeException" title="zserio.PythonRuntimeException"><strong>PythonRuntimeException</strong></a> – Throws in case of any error during serialization.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -77,11 +80,11 @@
               <img class="logo" src="../_static/Zserio.png" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
-  <p class="topless"><a href="zserio.bitsizeof.getBitSizeOfVarUInt32.html"
-                        title="previous chapter">getBitSizeOfVarUInt32</a></p>
+  <p class="topless"><a href="zserio.deserializeBytes.html"
+                        title="previous chapter">deserializeBytes</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="zserio.builtin.getNumBits.html"
-                        title="next chapter">getNumBits</a></p>
+  <p class="topless"><a href="zserio.serializeToBytes.html"
+                        title="next chapter">serializeToBytes</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -106,13 +109,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="zserio.builtin.getNumBits.html" title="getNumBits"
+          <a href="zserio.serializeToBytes.html" title="serializeToBytes"
              >next</a> |</li>
         <li class="right" >
-          <a href="zserio.bitsizeof.getBitSizeOfVarUInt32.html" title="getBitSizeOfVarUInt32"
+          <a href="zserio.deserializeBytes.html" title="deserializeBytes"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">getBitSizeOfVarUInt64</a></li> 
+        <li class="nav-item nav-item-this"><a href="">serialize</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

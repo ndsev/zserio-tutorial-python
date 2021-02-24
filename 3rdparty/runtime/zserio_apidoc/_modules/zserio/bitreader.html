@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>zserio.bitreader &#8212; Zserio 2.0.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>zserio.bitreader &#8212; Zserio 2.2.0 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,8 +27,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">zserio.bitreader</a></li> 
       </ul>
     </div>  
 
@@ -42,42 +43,48 @@
 <span class="sd">The module implements abstraction for reading data to the bit stream.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">zserio.bitbuffer</span> <span class="k">import</span> <span class="n">BitBuffer</span>
-<span class="kn">from</span> <span class="nn">zserio.bitsizeof</span> <span class="k">import</span> <span class="n">INT64_MIN</span>
-<span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="k">import</span> <span class="n">PythonRuntimeException</span>
-<span class="kn">from</span> <span class="nn">zserio.float</span> <span class="k">import</span> <span class="n">convertUInt16ToFloat</span><span class="p">,</span> <span class="n">convertUInt32ToFloat</span><span class="p">,</span> <span class="n">convertUInt64ToFloat</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+
+<span class="kn">from</span> <span class="nn">zserio.bitbuffer</span> <span class="kn">import</span> <span class="n">BitBuffer</span>
+<span class="kn">from</span> <span class="nn">zserio.limits</span> <span class="kn">import</span> <span class="n">INT64_MIN</span>
+<span class="kn">from</span> <span class="nn">zserio.exception</span> <span class="kn">import</span> <span class="n">PythonRuntimeException</span>
+<span class="kn">from</span> <span class="nn">zserio.float</span> <span class="kn">import</span> <span class="n">convertUInt16ToFloat</span><span class="p">,</span> <span class="n">convertUInt32ToFloat</span><span class="p">,</span> <span class="n">convertUInt64ToFloat</span>
 
 <div class="viewcode-block" id="BitStreamReader"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader">[docs]</a><span class="k">class</span> <span class="nc">BitStreamReader</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Bit stream reader.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">bitSize</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs bit stream reader from bytes buffer.</span>
 
+<span class="sd">        Because bit buffer size does not have to be byte aligned (divisible by 8), it&#39;s possible that not all</span>
+<span class="sd">        bits of the last byte are used. In this case, only most significant bits of the corresponded size are</span>
+<span class="sd">        used.</span>
+
 <span class="sd">        :param buffer: Bytes-like buffer to read as a bit stream.</span>
+<span class="sd">        :param bitSize: Number of bits stored in buffer to use.</span>
+<span class="sd">        :raises PythonRuntimeException: If bitSize is out of range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span> <span class="o">=</span> <span class="n">buffer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bitBuffer</span><span class="p">:</span> <span class="n">BitBuffer</span> <span class="o">=</span> <span class="n">BitBuffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">bitSize</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="BitStreamReader.fromBitBuffer"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.fromBitBuffer">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">fromBitBuffer</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bitBuffer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fromBitBuffer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;BitStreamReader&#39;</span><span class="p">],</span> <span class="n">bitBuffer</span><span class="p">:</span> <span class="n">BitBuffer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BitStreamReader&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs bit stream reader from bit buffer.</span>
 
 <span class="sd">        :param bitBuffer: Bit buffer to read as a bit stream.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBuffer</span><span class="p">())</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">_bitSize</span> <span class="o">=</span> <span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBitSize</span><span class="p">()</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBuffer</span><span class="p">(),</span> <span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBitSize</span><span class="p">())</span>
 
         <span class="k">return</span> <span class="n">instance</span></div>
 
 <div class="viewcode-block" id="BitStreamReader.fromFile"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.fromFile">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">fromFile</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fromFile</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;BitStreamReader&#39;</span><span class="p">],</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BitStreamReader&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs bit stream reader from file.</span>
 
@@ -87,7 +94,7 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readBits"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readBits">[docs]</a>    <span class="k">def</span> <span class="nf">readBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numBits</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readBits"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readBits">[docs]</a>    <span class="k">def</span> <span class="nf">readBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numBits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads given number of bits from the bit stream as an unsigned integer.</span>
 
@@ -101,13 +108,14 @@
 
         <span class="n">endBitPosition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+</span> <span class="n">numBits</span>
 
-        <span class="k">if</span> <span class="n">endBitPosition</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">endBitPosition</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitBuffer</span><span class="o">.</span><span class="n">getBitSize</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader: Reading behind the stream!&quot;</span><span class="p">)</span>
 
         <span class="n">startByte</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">//</span> <span class="mi">8</span>
         <span class="n">endByte</span> <span class="o">=</span> <span class="p">(</span><span class="n">endBitPosition</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span>
 
-        <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="n">startByte</span> <span class="p">:</span> <span class="n">endByte</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;big&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitBuffer</span><span class="o">.</span><span class="n">getBuffer</span><span class="p">()</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="n">startByte</span> <span class="p">:</span> <span class="n">endByte</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;big&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="n">lastBits</span> <span class="o">=</span> <span class="n">endBitPosition</span> <span class="o">%</span> <span class="mi">8</span>
         <span class="k">if</span> <span class="n">lastBits</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
@@ -118,7 +126,7 @@
 
         <span class="k">return</span> <span class="n">value</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readSignedBits"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readSignedBits">[docs]</a>    <span class="k">def</span> <span class="nf">readSignedBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numBits</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readSignedBits"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readSignedBits">[docs]</a>    <span class="k">def</span> <span class="nf">readSignedBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numBits</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads given number of bits from the bit stream as a signed integer.</span>
 
@@ -136,7 +144,7 @@
             <span class="c1"># unsigned</span>
             <span class="k">return</span> <span class="n">value</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarInt16"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarInt16">[docs]</a>    <span class="k">def</span> <span class="nf">readVarInt16</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarInt16"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarInt16">[docs]</a>    <span class="k">def</span> <span class="nf">readVarInt16</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable 16-bit signed integer value from the bit stream.</span>
 
@@ -152,7 +160,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 2</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">result</span> <span class="k">if</span> <span class="n">sign</span> <span class="k">else</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarInt32"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarInt32">[docs]</a>    <span class="k">def</span> <span class="nf">readVarInt32</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarInt32"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarInt32">[docs]</a>    <span class="k">def</span> <span class="nf">readVarInt32</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable 32-bit signed integer value from the bit stream.</span>
 
@@ -178,7 +186,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 4</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">result</span> <span class="k">if</span> <span class="n">sign</span> <span class="k">else</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarInt64"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarInt64">[docs]</a>    <span class="k">def</span> <span class="nf">readVarInt64</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarInt64"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarInt64">[docs]</a>    <span class="k">def</span> <span class="nf">readVarInt64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable 64-bit signed integer value from the bit stream.</span>
 
@@ -224,7 +232,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 8</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">result</span> <span class="k">if</span> <span class="n">sign</span> <span class="k">else</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarInt"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarInt">[docs]</a>    <span class="k">def</span> <span class="nf">readVarInt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarInt"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarInt">[docs]</a>    <span class="k">def</span> <span class="nf">readVarInt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable signed integer value (up to 9 bytes) from the bit stream.</span>
 
@@ -275,7 +283,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 9</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">result</span> <span class="k">if</span> <span class="n">sign</span> <span class="k">else</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarUInt16"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarUInt16">[docs]</a>    <span class="k">def</span> <span class="nf">readVarUInt16</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarUInt16"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarUInt16">[docs]</a>    <span class="k">def</span> <span class="nf">readVarUInt16</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable 16-bit unsigned integer value from the bit stream.</span>
 
@@ -290,7 +298,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 2</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarUInt32"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarUInt32">[docs]</a>    <span class="k">def</span> <span class="nf">readVarUInt32</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarUInt32"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarUInt32">[docs]</a>    <span class="k">def</span> <span class="nf">readVarUInt32</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable 32-bit unsigned integer value from the bit stream.</span>
 
@@ -315,7 +323,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 4</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarUInt64"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarUInt64">[docs]</a>    <span class="k">def</span> <span class="nf">readVarUInt64</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarUInt64"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarUInt64">[docs]</a>    <span class="k">def</span> <span class="nf">readVarUInt64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable 64-bit unsigned integer value from the bit stream.</span>
 
@@ -360,7 +368,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 8</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarUInt"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarUInt">[docs]</a>    <span class="k">def</span> <span class="nf">readVarUInt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarUInt"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarUInt">[docs]</a>    <span class="k">def</span> <span class="nf">readVarUInt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable unsigned integer value (up to 9 bytes) from the bit stream.</span>
 
@@ -410,7 +418,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># byte 9</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readVarSize"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarSize">[docs]</a>    <span class="k">def</span> <span class="nf">readVarSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readVarSize"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readVarSize">[docs]</a>    <span class="k">def</span> <span class="nf">readVarSize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads variable size integer value from the bit stream.</span>
 
@@ -445,7 +453,7 @@
 
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readFloat16"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readFloat16">[docs]</a>    <span class="k">def</span> <span class="nf">readFloat16</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readFloat16"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readFloat16">[docs]</a>    <span class="k">def</span> <span class="nf">readFloat16</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read 16-bits from the stream as a float value encoded according to IEEE 754 binary16.</span>
 
@@ -455,7 +463,7 @@
 
         <span class="k">return</span> <span class="n">convertUInt16ToFloat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readFloat32"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readFloat32">[docs]</a>    <span class="k">def</span> <span class="nf">readFloat32</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readFloat32"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readFloat32">[docs]</a>    <span class="k">def</span> <span class="nf">readFloat32</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read 32-bits from the stream as a float value encoded according to IEEE 754 binary32.</span>
 
@@ -465,7 +473,7 @@
 
         <span class="k">return</span> <span class="n">convertUInt32ToFloat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readFloat64"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readFloat64">[docs]</a>    <span class="k">def</span> <span class="nf">readFloat64</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readFloat64"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readFloat64">[docs]</a>    <span class="k">def</span> <span class="nf">readFloat64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read 64-bits from the stream as a float value encoded according to IEEE 754 binary64.</span>
 
@@ -475,7 +483,7 @@
 
         <span class="k">return</span> <span class="n">convertUInt64ToFloat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readString"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readString">[docs]</a>    <span class="k">def</span> <span class="nf">readString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readString"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readString">[docs]</a>    <span class="k">def</span> <span class="nf">readString</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads string from the stream.</span>
 
@@ -490,7 +498,7 @@
 
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readBool"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readBool">[docs]</a>    <span class="k">def</span> <span class="nf">readBool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readBool"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readBool">[docs]</a>    <span class="k">def</span> <span class="nf">readBool</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads single bit as a bool value.</span>
 
@@ -500,7 +508,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.readBitBuffer"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readBitBuffer">[docs]</a>    <span class="k">def</span> <span class="nf">readBitBuffer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.readBitBuffer"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.readBitBuffer">[docs]</a>    <span class="k">def</span> <span class="nf">readBitBuffer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BitBuffer</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads a bit buffer from the stream.</span>
 
@@ -522,14 +530,15 @@
             <span class="c1"># we are aligned to byte</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setBitPosition</span><span class="p">(</span><span class="n">beginBitPosition</span> <span class="o">+</span> <span class="n">numBytesToRead</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
             <span class="n">beginBytePosition</span> <span class="o">=</span> <span class="n">beginBitPosition</span> <span class="o">//</span> <span class="mi">8</span>
-            <span class="n">readBuffer</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">numBytesToRead</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[</span><span class="n">beginBytePosition</span><span class="p">:</span><span class="n">beginBytePosition</span> <span class="o">+</span> <span class="n">numBytesToRead</span><span class="p">]</span>
+            <span class="n">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitBuffer</span><span class="o">.</span><span class="n">getBuffer</span><span class="p">()</span>
+            <span class="n">readBuffer</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">numBytesToRead</span><span class="p">]</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">[</span><span class="n">beginBytePosition</span><span class="p">:</span><span class="n">beginBytePosition</span> <span class="o">+</span> <span class="n">numBytesToRead</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">numRestBits</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">readBuffer</span><span class="p">[</span><span class="n">numBytesToRead</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBits</span><span class="p">(</span><span class="n">numRestBits</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="n">numRestBits</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">BitBuffer</span><span class="p">(</span><span class="n">readBuffer</span><span class="p">,</span> <span class="n">bitSize</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.getBitPosition"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.getBitPosition">[docs]</a>    <span class="k">def</span> <span class="nf">getBitPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.getBitPosition"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.getBitPosition">[docs]</a>    <span class="k">def</span> <span class="nf">getBitPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets current bit position.</span>
 
@@ -538,7 +547,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.setBitPosition"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.setBitPosition">[docs]</a>    <span class="k">def</span> <span class="nf">setBitPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bitPosition</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.setBitPosition"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.setBitPosition">[docs]</a>    <span class="k">def</span> <span class="nf">setBitPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bitPosition</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets bit position.</span>
 
@@ -548,12 +557,12 @@
 
         <span class="k">if</span> <span class="n">bitPosition</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader: Cannot set negative bit position!&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">bitPosition</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bitPosition</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitBuffer</span><span class="o">.</span><span class="n">getBitSize</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">PythonRuntimeException</span><span class="p">(</span><span class="s2">&quot;BitStreamReader: Setting bit position behind the stream!&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">=</span> <span class="n">bitPosition</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.alignTo"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.alignTo">[docs]</a>    <span class="k">def</span> <span class="nf">alignTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alignment</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.alignTo"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.alignTo">[docs]</a>    <span class="k">def</span> <span class="nf">alignTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alignment</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Aligns the bit position according to the aligning value.</span>
 
@@ -565,14 +574,14 @@
         <span class="k">if</span> <span class="n">offset</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setBitPosition</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bitPosition</span> <span class="o">+</span> <span class="n">alignment</span> <span class="o">-</span> <span class="n">offset</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BitStreamReader.getBufferBitSize"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.getBufferBitSize">[docs]</a>    <span class="k">def</span> <span class="nf">getBufferBitSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BitStreamReader.getBufferBitSize"><a class="viewcode-back" href="../../api/zserio.BitStreamReader.html#zserio.BitStreamReader.getBufferBitSize">[docs]</a>    <span class="k">def</span> <span class="nf">getBufferBitSize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets size of the underlying buffer in bits.</span>
 
 <span class="sd">        :returns: Buffer bit size.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitSize</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitBuffer</span><span class="o">.</span><span class="n">getBitSize</span><span class="p">()</span></div></div>
 
 <span class="n">VARINT_SIGN_1</span> <span class="o">=</span> <span class="mh">0x80</span>
 <span class="n">VARINT_BYTE_1</span> <span class="o">=</span> <span class="mh">0x3f</span>
@@ -584,6 +593,7 @@
 <span class="n">VARSIZE_MAX_VALUE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -593,15 +603,15 @@
               <img class="logo" src="../../_static/Zserio.png" alt="Logo"/>
             </a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -615,12 +625,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.0.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">zserio.bitreader</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright Copyright (c) 2018, Navigation Data Standard e.v..
+        &#169; Copyright Copyright (c) 2018-2021, Navigation Data Standard e.v..
     </div>
   </body>
 </html>

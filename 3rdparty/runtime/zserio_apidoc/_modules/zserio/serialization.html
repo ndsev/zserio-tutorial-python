@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>zserio.serialization &#8212; Zserio 2.2.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">zserio.serialization</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for zserio.serialization</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The module provides help methods for serialization and deserialization of generated objects.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">typing</span>
+
+<span class="kn">from</span> <span class="nn">zserio.bitwriter</span> <span class="kn">import</span> <span class="n">BitStreamWriter</span>
+<span class="kn">from</span> <span class="nn">zserio.bitbuffer</span> <span class="kn">import</span> <span class="n">BitBuffer</span>
+<span class="kn">from</span> <span class="nn">zserio.bitreader</span> <span class="kn">import</span> <span class="n">BitStreamReader</span>
+
+<div class="viewcode-block" id="serialize"><a class="viewcode-back" href="../../api/zserio.serialize.html#zserio.serialize">[docs]</a><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BitBuffer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Serializes generated object to the bit buffer.</span>
+
+<span class="sd">    Because serialization to the bit buffer does not have to be byte aligned (divisible by 8), it&#39;s possible</span>
+<span class="sd">    that not all bits of the last byte are used. In this case, only most significant bits of the corresponded</span>
+<span class="sd">    size are used.</span>
+
+<span class="sd">    :param obj: Generated object to serialize.</span>
+<span class="sd">    :returns: Bit buffer which represents generated object in binary format.</span>
+<span class="sd">    :raises PythonRuntimeException: Throws in case of any error during serialization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">BitStreamWriter</span><span class="p">()</span>
+    <span class="n">obj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">writer</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">BitBuffer</span><span class="p">(</span><span class="n">writer</span><span class="o">.</span><span class="n">getByteArray</span><span class="p">(),</span> <span class="n">writer</span><span class="o">.</span><span class="n">getBitPosition</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="deserialize"><a class="viewcode-back" href="../../api/zserio.deserialize.html#zserio.deserialize">[docs]</a><span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="n">objClass</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span> <span class="n">bitBuffer</span><span class="p">:</span> <span class="n">BitBuffer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deserializes bit buffer to the generated object.</span>
+
+<span class="sd">    :param objClass: Class instance of the generated object to deserialize.</span>
+<span class="sd">    :param bitBuffer: Bit buffer which represents generated object in binary format.</span>
+<span class="sd">    :param args: Additional arguments needed for objClass.fromReader method.</span>
+<span class="sd">    :returns: Generated object created from given bit buffer.</span>
+<span class="sd">    :raises PythonRuntimeException: Throws in case of any error during deserialization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">BitStreamReader</span><span class="o">.</span><span class="n">fromBitBuffer</span><span class="p">(</span><span class="n">bitBuffer</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">objClass</span><span class="o">.</span><span class="n">fromReader</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="serializeToBytes"><a class="viewcode-back" href="../../api/zserio.serializeToBytes.html#zserio.serializeToBytes">[docs]</a><span class="k">def</span> <span class="nf">serializeToBytes</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Serializes generated object to the byte buffer.</span>
+
+<span class="sd">    This is a convenient method for users which do not need exact number of bits to which the given object</span>
+<span class="sd">    will be serialized.</span>
+
+<span class="sd">    However, it&#39;s still possible that not all bits of the last byte are used. In this case, only most</span>
+<span class="sd">    significant bits of the corresponding size are used.</span>
+
+<span class="sd">    :param obj: Generated object to serialize.</span>
+<span class="sd">    :returns: Bytes which represents generated object in binary format.</span>
+<span class="sd">    :raises PythonRuntimeException: Throws in case of any error during serialization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bitBuffer</span> <span class="o">=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bitBuffer</span><span class="o">.</span><span class="n">getBuffer</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="deserializeBytes"><a class="viewcode-back" href="../../api/zserio.deserializeBytes.html#zserio.deserializeBytes">[docs]</a><span class="k">def</span> <span class="nf">deserializeBytes</span><span class="p">(</span><span class="n">objClass</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span> <span class="n">buffer</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deserializes byte buffer to the generated object.</span>
+
+<span class="sd">    This method can potentially use all bits of the last byte even if not all of them were written during</span>
+<span class="sd">    serialization (because there is no way how to specify exact number of bits). Thus, it could allow reading</span>
+<span class="sd">    behind stream (possibly in case of damaged data).</span>
+
+<span class="sd">    :param objClass: Class instance of the generated object to deserialize.</span>
+<span class="sd">    :param buffer: Byte buffer which represents generated object in binary format.</span>
+<span class="sd">    :param args: Additional arguments needed for objClass.fromReader method.</span>
+<span class="sd">    :returns: Generated object created from given byte buffer.</span>
+<span class="sd">    :raises PythonRuntimeException: Throws in case of any error during deserialization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bitBuffer</span> <span class="o">=</span> <span class="n">BitBuffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">objClass</span><span class="p">,</span> <span class="n">bitBuffer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/Zserio.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Zserio 2.2.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">zserio.serialization</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright Copyright (c) 2018-2021, Navigation Data Standard e.v..
+    </div>
+  </body>
+</html>

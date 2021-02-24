@@ -5,7 +5,7 @@ Zserio Python tutorial.
 
 import os
 import sys
-MIN_PYTHON = (3, 5)
+MIN_PYTHON = (3, 8)
 if sys.version_info < MIN_PYTHON:
     sys.exit("Python %s.%s or later is required.\n" % MIN_PYTHON)
 
@@ -41,7 +41,7 @@ def _writeJoe(employeeFile):
     skills.append(skill1)
 
     # construct skill2 directly from fields
-    skill2 = tutorial.Experience.fromFields(4, tutorial.Language.PYTHON)
+    skill2 = tutorial.Experience(4, tutorial.Language.PYTHON)
     skills.append(skill2)
 
     joe.setSkills(skills)
@@ -93,11 +93,11 @@ def _readEmployee(employeeFile):
     print("Role:", employee.getRole())
 
     # we have to check for optionals whether they are in the stream
-    if employee.hasBonus():
+    if employee.isBonusUsed():
         print("Bonus:", employee.getBonus())
 
     # we also have to check for conditions if they applied
-    if employee.hasSkills():
+    if employee.isSkillsUsed():
         for skill in employee.getSkills():
             years = skill.getYearsOfExperience()
             language = skill.getProgrammingLanguage()
