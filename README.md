@@ -6,11 +6,10 @@ This Quick Start tutorial features code generation in Python. Go to the
 are interested in hands-on C++ or Java with zserio.
 
 You find the complete tutorial in this example. To follow along the description just clone this repo and check
-the sources. For convenience, we have included the corresponded runtime in this repository
-in subfolder `3rdparty`.
+the sources.
 
 The latest build of the zserio compiler and runtime library can be get from
-[Zserio Releases](https://github.com/ndsev/zserio/releases).
+[PyPi repository](https://pypi.org/project/zserio/).
 
 If you want to build from source, please follow the
 [Zserio Compiler Build Instructions](https://github.com/ndsev/zserio/blob/master/doc/ZserioBuildInstructions.md#zserio-compiler-build-instructions).
@@ -19,31 +18,31 @@ If you want to build from source, please follow the
 
 Before we start, make sure you have the following components installed:
 
-- Java JRE
+- Java JRE 8+
 - Python 3.8+
+- Zserio compiler with Python runtime library:
+
+  ```
+  python3 -m pip install zserio
+  ```
 
 ## Set up dev environment
 
 > Everything has been already set up for you in this repository. If you are very impatient, just go to the
 > project's root folder and have a quick look to the schema `tutorial.zs`.
 >
+> Compile this schema by command:
+>
+> `zserio tutorial.zs -python build/gen`
+>
 > Now, start to play with tutorial using the command:
 >
-> `python3 -m src.Main`
+> `PYTHONPATH=build/gen python3 src/main.py`
 
-We start with a common layout of our project/repo where we put all the source files into a `src` folder and all
-3rd party stuff into `3rdparty`. For simplicity the zserio schema file stays in the project's root folder.
+We start with a common layout of our project/repo where we put all the source files into a `src` folder
+For simplicity the zserio schema file stays in the project's root folder.
 
-So our folder structure looks like this:
-
-```
-.
-├───3rdparty
-│   └───runtime
-└───src
-```
-
-Now we only need to generate the code, populate the Main.py and we are done.
+Now we only need to generate the code, populate the `main.py` and we are done.
 
 But before we can generate code, we need to write the schema definition of our data.
 
@@ -132,46 +131,37 @@ and reports errors and warnings. In addition, the zserio compiler generates code
 and may generate HTML documentation. For a complete overview of available options, please refer to the
 [Zserio Compiler User Guide](https://github.com/ndsev/zserio/blob/master/doc/ZserioUserGuide.md#zserio-compiler-user-guide).
 
-So let's generate some Python code. Because zserio compiler is not available in this repository, we have 
-prepared `regenerate_python_sources.py` which will download the latest zserio compiler release together
-with corresponded Python runtime library from GitHub and generate Python code. So, it's enough just to run the
-following command:
+So let's generate some Python code. It's enough just to run the following command:
 
 ```
-python3 regenerate_python_sources.py
+zserio tutorial.zs -python build/gen
 ```
 
-After download, you can find out the latest zserio compiler in directory `build/download` and regenerate
-the Python code by hand using the command:
-
-```
-java -jar build/download/zserio.jar -python src tutorial.zs
-```
-
-This command generates Python code and puts it into the `src` folder. It actually creates subfolders for each
-package in the schema.
+This command generates Python code and puts it into the `build/gen` folder. It actually creates subfolders
+for each package in the schema.
 
 So after generating the code our folder structure looks like this:
 
 ```
 .
-├───3rdparty
-│   └───runtime
+├───build
+│   └───gen
+│       └───tutorial
 └───src
-    └───tutorial
 ```
 
-Let's take a quick look what has been generated. In the `src/tutorial` folder you now find the following files:
+Let's take a quick look what has been generated. In the `build/gen/tutorial` folder you now find
+the following files:
 
 ```
-Employee.py  Experience.py  Language.py  Role.py api.py __init__.py
+api.py employee.py  experience.py __init__.py language.py role.py
 ```
 
 There is a Python file for each struct or enum and a single `__init__.py` file needed to let python recognize
 generated top level package as a python package.
 
-There is also one `api.py` file for each generated package to provide a user friendly interface to the generated
-api.
+There is also one `api.py` file for each generated package to provide a user friendly interface
+to the generated api.
 
 We now have everything ready to serialize and deserialize our data.
 
@@ -196,12 +186,12 @@ Let's declare an employee Joe and fill in some data:
 joe = tutorial.Employee()
 
 # fill some basic type fields
-joe.setAge(32)
-joe.setName("Joe Smith")
-joe.setSalary(5000)
+joe.age = 32
+joe.name = "Joe Smith"
+joe.salary = 5000
 
 # set an enum value, in this case the role
-joe.setRole(tutorial.Role.DEVELOPER)
+joe.role = tutorial.Role.DEVELOPER
 ```
 
 To be able to populate a list of skills, we just need to create a native python array of Experience objects.
@@ -216,8 +206,8 @@ First we add C++ experience:
 
 ```python
 skill1 = tutorial.Experience()
-skill1.setYearsOfExperience(8)
-skill1.setProgrammingLanguage(Language.CPP)
+skill1.years_of_experience = 8
+skill1.programming_language = tutorial.Language.CPP
 skills.append(skill1)
 ```
 
@@ -225,14 +215,14 @@ and then also some Python experience:
 
 ```python
 # construct skill2 directly from fields
-skill2 = tutorial.Experience(4, Language.PYTHON)
+skill2 = tutorial.Experience(4, tutorial.Language.PYTHON)
 skills.append(skill2)
 ```
 
 Don't forget to set Joe's skills:
 
 ```python
-joe.setSkills(skills)
+joe.skills = skills
 ```
 
 After we have set all the fields, we have to declare a BitStreamWriter and write the stream to the file:
@@ -244,7 +234,7 @@ writer = zserio.BitStreamWriter()
 joe.write(writer)
 
 # write the buffer stored in BitStreamWriter to disk
-writer.toFile(employeeFile)
+writer.to_file(employee_file)
 ```
 
 **Voila!** You have just serialized your first data with zserio.
@@ -262,10 +252,10 @@ schema definition does not allow team leads to have programming skills. ;-)
 
 ```python
 # set an enum value, in this case the role
-boss.setRole(Role.TEAM_LEAD)
+boss.role = tutorial.Role.TEAM_LEAD
 
 # no programming skills for the boss, but a bonus!
-boss.setBonus(10000)
+boss.bonus = 10000
 ```
 
 The rest is pretty similar. Check the code to see the rest.
@@ -273,14 +263,14 @@ The rest is pretty similar. Check the code to see the rest.
 When deserializing the zserio bit stream, we start with reading the file using BitStreamReader declaration:
 
 ```python
-reader = BitStreamReader.fromFile(employeeFile)
+reader = zserio.BitStreamReader.from_file(employee_file)
 ```
 
 We declare an object of class Employee and deserialize the buffer with the help of the BitStreamReader we
 just created. After this call all the fields within `employee` will be set.
 
 ```python
-employee = Employee.fromReader(reader)
+employee = tutorial.Employee.from_reader(reader)
 ```
 
 We can now access the filled employee object via the respective getters. We still need to check for optionals
@@ -288,14 +278,14 @@ and conditionals whether they have been set.
 
 ```python
 # data types that are always available can simply be printed out
-print("Name:", employee.getName())
-print("Age:", employee.getAge())
-print("Salary:", employee.getSalary())
-print("Role:", employee.getRole())
+print("Name:", employee.name)
+print("Age:", employee.age)
+print("Salary:", employee.salary)
+print("Role:", employee.role)
 
 # we have to check for optionals whether they are in the stream
-if employee.isBonusUsed():
-        print("Bonus:", employee.getBonus())
+if employee.is_bonus_used():
+    print("Bonus:", employee.bonus)
 ```
 
 For the rest of the processing please refer to the code. You should have gotten the main point by now.
@@ -309,18 +299,18 @@ There are some other features that we used in the code in this repo that we woul
 
 ### Zserio runtime exceptions
 
-The zserio runtime throws the `zserio.PythonRuntimeException` and possibly other python built-in exceptions e.g.
-when a file is missing or when wrong arguments are passed to a function.
+The zserio runtime throws the `zserio.PythonRuntimeException` and possibly other python built-in 
+exceptions e.g. when a file is missing or when wrong arguments are passed to a function.
 
 It makes sense to try-except all of your writes and reads as we do in our tutorial:
 
 ```python
 try:
     # read or write
-except zserio.PythonRuntimeException as e:
-    print("Zserio error:", e)
-except Exception as e:
-    print("Error:", e)
+except zserio.PythonRuntimeException as excpt:
+    print("Zserio error:", excpt)
+except Exception as excpt:
+    print("Error:", excpt)
 ```
 
 Example for when PythonRuntimeException will be thrown:
@@ -337,10 +327,10 @@ Example for when PythonRuntimeException will be thrown:
 The example uses one smaller feature that we would like to explain.
 
 The feature is that you can always retrieve the actual bit size of the structures in zserio by calling
-`bitSizeOf()`.
+`bitsizeof()`.
 
 In the tutorial we use it for plain informational purpose only.
 
 ```python
-print("Bit size of employee: ", employee.bitSizeOf())
+print("Bit size of employee: ", employee.bitsizeof())
 ```
