@@ -31,15 +31,11 @@ Before we start, make sure you have the following components installed:
 > Everything has been already set up for you in this repository. If you are very impatient, just go to the
 > project's root folder and have a quick look to the schema `tutorial.zs`.
 >
-> Compile this schema by command:
->
-> `zserio tutorial.zs -python build/gen`
->
 > Now, start to play with tutorial using the command:
 >
-> `PYTHONPATH=build/gen python3 src/main.py`
+> `python3 src/main.py`
 
-We start with a common layout of our project/repo where we put all the source files into a `src` folder
+We start with a common layout of our project/repo where we put all the source files into a `src` folder.
 For simplicity the zserio schema file stays in the project's root folder.
 
 Now we only need to generate the code, populate the `main.py` and we are done.
@@ -134,24 +130,22 @@ and may generate HTML documentation. For a complete overview of available option
 So let's generate some Python code. It's enough just to run the following command:
 
 ```
-zserio tutorial.zs -python build/gen
+zserio tutorial.zs -python src
 ```
 
-This command generates Python code and puts it into the `build/gen` folder. It actually creates subfolders
+This command generates Python code and puts it into the `src` folder. It actually creates subfolders
 for each package in the schema.
 
 So after generating the code our folder structure looks like this:
 
 ```
 .
-├───build
-│   └───gen
-│       └───tutorial
-└───src
+├───src
+    └───tutorial
 ```
 
-Let's take a quick look what has been generated. In the `build/gen/tutorial` folder you now find
-the following files:
+Let's take a quick look what has been generated. In the `src/tutorial` folder you now find the following
+files:
 
 ```
 api.py employee.py  experience.py __init__.py language.py role.py
