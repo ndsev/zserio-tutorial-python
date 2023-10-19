@@ -1,5 +1,13 @@
 # Zserio Python Quick Start Tutorial
 
+[![](https://github.com/ndsev/zserio-tutorial-python/actions/workflows/build_linux.yml/badge.svg)](https://github.com/ndsev/zserio-tutorial-python/actions/workflows/build_linux.yml)
+[![](https://github.com/ndsev/zserio-tutorial-python/actions/workflows/build_windows.yml/badge.svg)](https://github.com/ndsev/zserio-tutorial-python/actions/workflows/build_windows.yml)
+[![](https://img.shields.io/github/watchers/ndsev/zserio-tutorial-python.svg)](https://GitHub.com/ndsev/zserio-tutorial-python/watchers)
+[![](https://img.shields.io/github/forks/ndsev/zserio-tutorial-python.svg)](https://GitHub.com/ndsev/zserio-tutorial-python/network/members)
+[![](https://img.shields.io/github/stars/ndsev/zserio-tutorial-python.svg?color=yellow)](https://GitHub.com/ndsev/zserio-tutorial-python/stargazers)
+
+--------
+
 This Quick Start tutorial features code generation in Python. Go to the
 [Zserio C++ tutorial](https://github.com/ndsev/zserio-tutorial-cpp#zserio-c-quick-start-tutorial) or
 [Zserio Java tutorial](https://github.com/ndsev/zserio-tutorial-java#zserio-java-quick-start-tutorial) if you
