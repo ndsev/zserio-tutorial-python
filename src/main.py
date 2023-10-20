@@ -92,7 +92,7 @@ def _read_employee(employee_file: str):
         for skill in employee.skills:
             years = skill.years_of_experience
             language = skill.programming_language
-            print("Skill: Language {}, {} years".format(language, years))
+            print(f"Skill: Language {language}, {years} years")
 
     # print out bit size
     print("Bit size of employee: ", employee.bitsizeof())
