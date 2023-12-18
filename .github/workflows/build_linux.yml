@@ -48,7 +48,7 @@ jobs:
               --disable=line-too-long,missing-function-docstring,missing-module-docstring \
               --disable=missing-class-docstring,duplicate-code,unused-import,too-many-public-methods \
               --disable=invalid-name,unneeded-not,too-many-arguments,too-many-instance-attributes, \
-              --disable=superfluous-parens,broad-exception-caught
+              --disable=superfluous-parens,broad-exception-caught,too-few-public-methods
 
     - name: Test Zserio Python tutorial
       run: |
@@ -65,7 +65,7 @@ jobs:
               --disable=line-too-long,missing-function-docstring,missing-module-docstring \
               --disable=missing-class-docstring,duplicate-code,unused-import,too-many-public-methods \
               --disable=invalid-name,unneeded-not,too-many-arguments,too-many-instance-attributes, \
-              --disable=superfluous-parens,broad-exception-caught
+              --disable=superfluous-parens,broad-exception-caught,too-few-public-methods
 
     - name: Test Zserio Python tutorial (sources regeneration)
       run: |
