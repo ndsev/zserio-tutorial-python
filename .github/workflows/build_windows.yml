@@ -79,3 +79,11 @@ jobs:
         PYTHONPATH=build/gen python src/main.py write_boss
         PYTHONPATH=build/gen python src/main.py read
       shell: bash
+
+  keepalive:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: liskin/gh-workflow-keepalive@v1
