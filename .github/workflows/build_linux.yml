@@ -61,6 +61,9 @@ jobs:
     - name: Check Zserio Python tutorial (sources regeneration)
       run: |
         zserio tutorial.zs -python build/gen
+        zserio tutorial.zs -python src
+        git add --intent-to-add --all -- src
+        git diff --exit-code -- src
         mypy build/gen src/main.py --no-strict-optional
         PYTHONPATH=. pylint build/gen src/main.py \
               --disable=line-too-long,missing-function-docstring,missing-module-docstring \
